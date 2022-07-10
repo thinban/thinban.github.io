@@ -57,12 +57,12 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Buscar"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Buscar"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
       </div>
     </div>
   </div>
@@ -97,11 +97,12 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <p>&lt;% for (var link in site.data.menu) { %&gt;<br>  <a href="<%= site.data.menu[link] %>"> &lt;%&#x3D; link %&gt; </a><br>&lt;% } %&gt;</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/10/%E8%AF%95%E8%AF%95post/" data-id="cl5fhjnsg00030ov53yipf0z1" data-title="试试post" class="article-share-link">Compartir</a>
+      <a data-url="http://example.com/2022/07/10/%E8%AF%95%E8%AF%95post/" data-id="cl5fhp84l00021wv54xvv9t4o" data-title="试试post" class="article-share-link">Teilen</a>
       
       
       
@@ -154,7 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/07/10/hello-world/" data-id="cl5fhjnsd00020ov5h2pu0oyz" data-title="Hello World" class="article-share-link">Compartir</a>
+      <a data-url="http://example.com/2022/07/10/hello-world/" data-id="cl5fhp84b00011wv54u79bz6d" data-title="Hello World" class="article-share-link">Teilen</a>
       
       
       
@@ -174,7 +175,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Categorías</h3>
+    <h3 class="widget-title">Kategorien</h3>
     <div class="widget">
       <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/">Diary</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/Games/">Games</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Diary/PlayStation/">PlayStation</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a></li></ul>
     </div>
@@ -194,7 +195,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Nube de Tags</h3>
+    <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
       <a href="/tags/tags/" style="font-size: 10px;">tags</a> <a href="/tags/tags2/" style="font-size: 10px;">tags2</a> <a href="/tags/tags3/" style="font-size: 10px;">tags3</a>
     </div>
@@ -203,7 +204,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archivos</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li></ul>
     </div>
@@ -213,7 +214,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Posts recientes</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
         
@@ -239,7 +240,7 @@
     <div id="footer-info" class="inner">
       
       &copy; 2022 thinban<br>
-      Construido por <a href="https://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
