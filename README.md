@@ -21,3 +21,12 @@ excerpt	Page excerpt in plain text. Use this plugin to format the text
 disableNunjucks	Disable rendering of Nunjucks tag {{ }}/{% %} and tag plugins when enabled	
 lang	Set the language to override auto-detection	Inherited from _config.yml
 ```
+
+## 资源文件夹
+### 1.source/images ，markdown语法引用
+![图片啊](/images/1.jpg)
+
+### 2. hexo new post xxx时会创建相关文件夹，内部采用以下语法
+{% asset_path slug %}
+{% asset_img slug [title] %}
+{% asset_link slug [title] %}

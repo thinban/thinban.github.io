@@ -5,8 +5,6 @@ updated: 2022-07-12 11:17:42
 tags:
 - go
 - 代码段
-categories:
-- go
 ---
 
 ## 简单爬虫
