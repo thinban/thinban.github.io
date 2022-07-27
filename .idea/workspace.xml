@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="删除" />
+    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="采用docsify重构">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +56,7 @@
       <recent name="E:\github2\thinban.github.io\themes\layout" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\github2\thinban.github.io" />
       <recent name="E:\github2\thinban.github.io\source\_posts" />
     </key>
   </component>
@@ -90,7 +93,7 @@
       <workItem from="1657700886062" duration="2829000" />
       <workItem from="1658198884955" duration="16689000" />
       <workItem from="1658459127492" duration="3588000" />
-      <workItem from="1658888277579" duration="11179000" />
+      <workItem from="1658888277579" duration="11981000" />
     </task>
     <task id="LOCAL-00001" summary="优化页面">
       <created>1657535314318</created>
@@ -141,7 +144,21 @@
       <option name="project" value="LOCAL" />
       <updated>1658918939261</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="采用docsify重构">
+      <created>1658919084677</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1658919084677</updated>
+    </task>
+    <task id="LOCAL-00009" summary="采用docsify重构">
+      <created>1658919175608</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1658919175608</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +183,8 @@
     <MESSAGE value="增加图片，增加其他" />
     <MESSAGE value="移除hexo生成页" />
     <MESSAGE value="删除" />
-    <option name="LAST_COMMIT_MESSAGE" value="删除" />
+    <MESSAGE value="采用docsify重构" />
+    <option name="LAST_COMMIT_MESSAGE" value="采用docsify重构" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
