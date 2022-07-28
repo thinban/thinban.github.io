@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="2022-07-28 10:32:36">
-      <change afterPath="$PROJECT_DIR$/menu.exe" afterDir="false" />
+    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="2022-07-28 10:45:18">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658975563060</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="2022-07-28 10:45:18">
+      <created>1658976324405</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1658976324405</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +246,8 @@
     <MESSAGE value="重命名" />
     <MESSAGE value="2022-07-28 10:25:49" />
     <MESSAGE value="2022-07-28 10:32:36" />
-    <option name="LAST_COMMIT_MESSAGE" value="2022-07-28 10:32:36" />
+    <MESSAGE value="2022-07-28 10:45:18" />
+    <option name="LAST_COMMIT_MESSAGE" value="2022-07-28 10:45:18" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
