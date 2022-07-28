@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-var tpl = "[%s](%s)"
 var s = "<!-- _sidebar.md-->\n"
+var tpl = "[%s](%s)"
 var ignore = "image,.git,.idea"
 
 func main() {
