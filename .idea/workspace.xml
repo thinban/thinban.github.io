@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="重命名">
+    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="2022-07-28 10:25:49">
+      <change beforePath="$PROJECT_DIR$/.deploy_git" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/menu.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,8 +60,8 @@
       <recent name="E:\github2\thinban.github.io\themes\layout" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\github2\thinban.github.io\docs" />
       <recent name="E:\github2\thinban.github.io" />
+      <recent name="E:\github2\thinban.github.io\docs" />
       <recent name="E:\github2\thinban.github.io\source\_posts" />
     </key>
   </component>
@@ -73,6 +75,14 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build menu.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="thinban.github.io" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/menu.go" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="thinban.github.io" />
       <working_directory value="$PROJECT_DIR$" />
@@ -83,6 +93,11 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build menu.go" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -168,7 +183,21 @@
       <option name="project" value="LOCAL" />
       <updated>1658974320849</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="重命名">
+      <created>1658975045108</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1658975045108</updated>
+    </task>
+    <task id="LOCAL-00012" summary="2022-07-28 10:25:49">
+      <created>1658975169032</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1658975169032</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,7 +224,8 @@
     <MESSAGE value="删除" />
     <MESSAGE value="采用docsify重构" />
     <MESSAGE value="重命名" />
-    <option name="LAST_COMMIT_MESSAGE" value="重命名" />
+    <MESSAGE value="2022-07-28 10:25:49" />
+    <option name="LAST_COMMIT_MESSAGE" value="2022-07-28 10:25:49" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

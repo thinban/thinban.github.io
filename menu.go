@@ -8,7 +8,7 @@ import (
 
 var tpl = "[%s](%s)"
 var s = "<!-- _sidebar.md-->\n"
-var ignore = "image"
+var ignore = "image,.git,.idea"
 
 func main() {
 	//遍历目录，递归获取文件名
@@ -33,7 +33,7 @@ func recur(dir string, num int) {
 			if num > 0 {
 				d = strings.ReplaceAll(d, "//", "/")
 				s = s + strings.Repeat("*", num+1) + " " + fmt.Sprintf(tpl, name, d[1:]) + "\n"
-				println(name)
+				//println(name)
 			}
 		}
 	}
