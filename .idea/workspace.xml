@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="2022-07-28 10:25:49">
-      <change beforePath="$PROJECT_DIR$/.deploy_git" beforeDir="false" />
+    <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="2022-07-28 10:32:36">
+      <change afterPath="$PROJECT_DIR$/menu.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/menu.go" beforeDir="false" afterPath="$PROJECT_DIR$/menu.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +196,21 @@
       <option name="project" value="LOCAL" />
       <updated>1658975169032</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="2022-07-28 10:25:49">
+      <created>1658975412690</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1658975412690</updated>
+    </task>
+    <task id="LOCAL-00014" summary="2022-07-28 10:32:36">
+      <created>1658975563060</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1658975563060</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,7 +238,8 @@
     <MESSAGE value="采用docsify重构" />
     <MESSAGE value="重命名" />
     <MESSAGE value="2022-07-28 10:25:49" />
-    <option name="LAST_COMMIT_MESSAGE" value="2022-07-28 10:25:49" />
+    <MESSAGE value="2022-07-28 10:32:36" />
+    <option name="LAST_COMMIT_MESSAGE" value="2022-07-28 10:32:36" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
