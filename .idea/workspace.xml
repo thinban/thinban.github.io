@@ -6,6 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="5285facf-fde7-4bd6-a28f-28a6040fd84f" name="Changes" comment="采用docsify重构">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_sidebar.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_sidebar.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docsify.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/search.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/vue.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/个人实践/go代码.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mycode/go代码.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/个人实践/todo.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mycode/todo.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/个人实践/后端.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mycode/后端.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/个人实践/模拟浏览器访问天猫网页并截图.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/mycode/模拟浏览器访问天猫网页并截图.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/其他/操作系统命令.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/other/操作系统命令.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/其他/数据指标.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/other/数据指标.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/其他/硬件.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/other/硬件.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/Kafka.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/Kafka.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/Pulsar.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/Pulsar.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/RabbitMQ.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/RabbitMQ.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/cron表达式.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/cron表达式.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/linux知识.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/linux知识.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/域名.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/域名.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/技术/网络.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rdtech/网络.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,18 +63,20 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "E:/github2/thinban.github.io/source/images",
+    "last_opened_file_path": "E:/github2/thinban.github.io/docs",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\github2\thinban.github.io\docs" />
       <recent name="E:\github2\thinban.github.io\source\images" />
       <recent name="E:\github2\thinban.github.io\source\_posts" />
       <recent name="E:\github2\thinban.github.io\themes\layout" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\github2\thinban.github.io\docs" />
       <recent name="E:\github2\thinban.github.io" />
       <recent name="E:\github2\thinban.github.io\source\_posts" />
     </key>
