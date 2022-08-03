@@ -66,8 +66,11 @@ CPU密集型一般分配 CPU核数+1个线程，IO密集型的则一般分配2*C
 ### 类型
 
 newCachedThreadPool (0，max,60,second,SynchronousQueue)
+
 newFixedThreadPool （n,n,0,mill,LinkedBlockingQueue）
+
 newScheduledThreadPool（n,max,0,nano,DelayedWorkQueue)
+
 newSingleThreadExecutor（1,1,0,mill,LinkedBlockingQueue）
 
 ### 优点
@@ -76,7 +79,6 @@ newSingleThreadExecutor（1,1,0,mill,LinkedBlockingQueue）
 - 控制并发
 - 线程管理
 - 避免new thread导致的：缺乏管理、性能不佳
--
 
 ### ThreadPoolExecutor.java
 
@@ -98,6 +100,7 @@ RejectedExecutionHandler handler
 ```
 
 ## spring
+
 ```text
 生命周期
     装配：BeanDefinitionMap[beanName]BeanDefinition
@@ -127,6 +130,7 @@ aop
 https://blog.csdn.net/zsh2050/article/details/124514882
 
 ## spring cloud
+
 Eureka
 Feign
 Ribbon
@@ -139,10 +143,88 @@ CAS底层原理
 各种实现：锁
 sun.misc.Unsafe#compareAndSwapObject
 
+## synchronized
+
+方法：字节码层面ACC_SYNCHRONIZE标志，线程访问这个方法时，会尝试获取objectMonitor对象锁。
+
+代码块：出口和入口添加monitor-enter和monitor-exit指令，线程遇到monitor-enter时，会尝试获取objectMonitor对象锁。
+
+特性：原子性、有序性（不能禁止指令重排序，但单线程结果不会被改变）、可见性（最新值刷新到主内存）、可重入、不可中断（Lock的tryLock就可以）
+锁粗化（编译阶段：锁被连续操作或者出现在循环里，同步范围扩大）、锁消除（编译阶段：经逃逸分析，会把不必要的锁消除）、锁升级
+
+逃逸分析：分析对象的动态作用范围，比如一个方法里创建一个对象，这个对象作为参数传递到其他方法里（方法逃逸），或者被其他线程访问（线程逃逸）
+
+锁升级:
+
+![](../image/lock-upgrade.png)
+
+### ObjectMonitor对象锁
+
+对象头Mark Word中的重量级锁指针指向的monitor对象,该对象是在HotSpot底层C++语言编写的(openjdk里面看)
+
+```text
+//结构体如下
+ObjectMonitor::ObjectMonitor() {  
+  _header       = NULL;  
+  _count       = 0;  
+  _waiters      = 0,  
+  _recursions   = 0;       //线程的重入次数
+  _object       = NULL;  
+  _owner        = NULL;    //标识拥有该monitor的线程
+  _WaitSet      = NULL;    //等待线程组成的双向循环链表，_WaitSet是第一个节点
+  _WaitSetLock  = 0 ;  
+  _Responsible  = NULL ;  
+  _succ         = NULL ;  
+  _cxq          = NULL ;    //多线程竞争锁进入时的单向链表
+  FreeNext      = NULL ;  
+  _EntryList    = NULL ;    //_owner从该双向循环链表中唤醒线程结点，_EntryList是第一个节点
+  _SpinFreq     = 0 ;  
+  _SpinClock    = 0 ;  
+  OwnerIsThread = 0 ;  
+} 
+```
+
+![ObjectMonitor维护的线程状态](../image/objectmonitor.jpg)
+
+#### 对象头
+
+（HotSpot虚拟机）对象在内存：对象头、实例数据和对齐填充（被8b整除）。
+
+64位jvm中，对象头一般需要2个机器码（2*8byte，压缩后对象头markword占12b），数组对象需要3个机器码。
+
+![](../image/jvm-obj-header.jpg)
+
+使用ClassLayout打印的对象头是反过来的。
+![img.png](../image/jvm-obj-header2.png)
+
+-XX:+UseCompressedOops 开启指针压缩：全局静态变量/对象头/引用类型/数组类型会被压缩。jvm默认开启
+-XX:-UseCompressedOops
+
+```text
+//打印对象头
+<dependency>
+    <groupId>org.openjdk.jol</groupId>
+    <artifactId>jol-core</artifactId>
+    <version>0.10</version>
+</dependency>
+
+System.out.println(ClassLayout.parseInstance(main).toPrintable());
+```
+
+#### 拓展
+
+对象内存分配： 1. 指针碰撞（内存规整，临界指针移动申请内存） 2. 空闲列表（不规整时，jvm维护的内存分配列表，按需分配）
+
+对象访问：1. 直接指针访问（直接存对象地址）。 2. 句柄访问（jvm堆独立开辟一块句柄池，句柄池维护和对象的链接，其他引用指向句柄池的地址）。
+
+## volatile
+1. 确保变量对所有线程的可见性。
+2. 禁止指令重排序。
+
+【内存屏障指令lock#】： 确保变量最新的值会被写回内存，并且禁止编译器和cpu对程序进行指令重排.
+
 ## JVM
 
 ### 内存结构
 
 ### 调优
-
-
