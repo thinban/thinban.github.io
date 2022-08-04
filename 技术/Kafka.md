@@ -78,6 +78,36 @@ File.read(fileDesc, buf, len);//前一步
 Socket.send(socket, buf, len);//后一步,调用sendfile system call
 ```
 
+### 四、压缩数据
+
+message header:
+
+- 1 byte magic
+- 1 byte compression-attributes
+- 4 byte CRC32 of the payload
+
+producer side config:
+
+- compression.codec: 0: default,No compression, 1: GZIP compression, 2: Snappy compression, 3: LZ4 compression
+- compressed.topics: optional
+
+### 五、生产者
+- load balancing: 1. client directly send data to leader of partition. 2. all broker knows alive servers and who is leader。
+
+
+
+## 消息重复和丢失
+
+生产者
+数据落盘后，网络原因导致Exception，重试消息: enable.idempotence=true
+
+消费者重复消费
+消费了消息，但提交offset失败：1. 手动判断幂等。message存入版本号，乐观锁.
+
+## 消息丢失
+
+数据未同步完，broker宕机：复制集[topic]replication.factor>1，同步列表[broker]min.insyc.replicas>1
+
 ## 学英语
 
 xx is considered essentially equivalent to xxx： 本质上相当于
@@ -90,5 +120,13 @@ amortize the overhead of the network roundtrip： 摊销网络往返的开销
 
 orders of magnitude speed up. 数量级的速度提升
 
+idempotence [i'dem] 冥等性
 
 
+intuitive 直观的
+
+pragmatic 务实的 
+
+trivial 琐碎的
+
+opaque 不透明的
