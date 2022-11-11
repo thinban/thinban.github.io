@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>转换工具</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <el-aside>
+
+            </el-aside>
+            <el-main>
+                <el-row>
+                    <el-radio-group v-model="radio">
+                        <el-radio :label="1">列表转json</el-radio>
+                        <el-radio :label="2">列表转java</el-radio>
+                        <el-radio :label="3">json转java</el-radio>
+                    </el-radio-group>
+                </el-row>
+                <el-row style="margin-top:10px">
+                    <el-col :span="20">
+                        <el-input type="textarea" :rows="12" placeholder="请输入内容" v-model="in2">
+                        </el-input>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="20" style="margin-top:10px">
+                        <p> 点击文本复制：</p>
+                        <el-label @click='copy'>
+                            {{out}}
+                        </el-label>
+                    </el-col>
+                </el-row>
+            </el-main>
+        </el-container>
+    </div>
+
+</body>
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        computed: {
+            out() {
+                if (!this.in2) return '请正确输入'
+                let res = ''
+                switch (this.radio) {
+                    case 1://list to json
+                        var arr = this.in2.split(/\n|\s+|,/)
+                        res = JSON.stringify(arr.reduce((t, cv, ci, arr) => { if (cv) t[cv] = ''; return t }, {}));
+                        break;
+                    case 2://list to java
+                        var arr = this.in2.split(/\n|\s+|,/)
+                        res = this.toJava(arr, true)
+                        break;
+                    case 3://json to java
+                        try {
+                            var arr = Object.keys(JSON.parse(this.in2))
+                            res = this.toJava(arr, true)
+                        } catch (error) {
+                            this.$notify({
+                                title: '提示',
+                                message: '请正确输入json',
+                                duration: 1000
+                            });
+                        }
+                        break;
+                }
+                return res;
+            }
+        },
+        data: function () {
+            return {
+                radio: 1,
+                in2: `waybillState
+dayAndMonth
+month
+receiverProv
+receiverCity
+senderProv
+senderCity
+baseProductNo
+queryType
+customerNo
+`
+            }
+        },
+        methods: {
+            toJava(arr, swagger) {
+                return arr.reduce((t, cv, ci, arr) => { if (cv) t += `@ApiModelProperty(value="${cv}",required=true)\nprivate String ${cv};\n`; return t }, '')
+            },
+            copy() {
+                var aux = document.createElement("input");
+                aux.setAttribute("value", this.out);
+                document.body.appendChild(aux);
+                aux.select();
+                document.execCommand("copy");
+                document.body.removeChild(aux);
+                this.$notify({
+                    title: '提示',
+                    message: '已复制',
+                    duration: 1000
+                });
+            }
+        }
+    })
+</script>
+
+</html>
