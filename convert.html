@@ -21,11 +21,15 @@
                     <el-radio :label="1">列表转json</el-radio>
                     <el-radio :label="2">列表转java</el-radio>
                     <el-radio :label="3">json转java</el-radio>
+                    <el-radio :label="4">json值拷贝</el-radio>
                 </el-radio-group>
             </el-row>
             <el-row style="margin-top:10px">
                 <el-col :span="20">
                     <el-input type="textarea" :rows="12" placeholder="请输入内容" v-model="in2">
+                    </el-input>
+                    <div style="height: 20px"></div>
+                    <el-input type="textarea" :rows="12" placeholder="请输入内容（覆盖上文）" v-model="in3" v-if="radio==4">
                     </el-input>
                 </el-col>
             </el-row>
@@ -74,6 +78,9 @@
                             });
                         }
                         break;
+                    case 4:
+                        res = this.cover()
+                        break;
                 }
                 return res;
             }
@@ -81,10 +88,55 @@
         data: function () {
             return {
                 radio: 1,
-                in2: `waybillState,dayAndMonth`
+                in2: `{
+    "alipayPhoneNum": "velit cupidatat dolor",
+    "allPrice": "quis qui culpa occaecat",
+    "attachment": {
+        "sit_80": "aliqua et est"
+    },
+    "description": "laborum in dolor",
+    "distAccount": "est Lorem",
+    "distName": "dolor amet officia",
+    "goodsDamagePrice": "Lorem ut magna",
+    "groupTypeId": "amet occaecat",
+    "haveVerifiedCode": "sint",
+    "isByRule": "consectetur velit tempor",
+    "isEntrust": "commodo",
+    "mailNo": "cupidatat nostrud veniam",
+    "openAccount": "est ad",
+    "openAccountNo": "nisi dolore",
+    "payType": "aliqua cupidatat aute",
+    "reasonFirst": "dolore dolor incididunt",
+    "reasonSecond": "Duis",
+    "webChatPhoneNum": "amet sint minim anim"
+}
+`,
+                in3: '',
             }
         },
         methods: {
+            cover() {
+                let o2 = JSON.parse(this.in2);
+                if (!this.in3) return ""
+                let o3 = JSON.parse(this.in3);
+                let keys = Object.keys(o2);
+                let err = ''
+                for (let key of keys) {
+                    if (o3[key]) {
+                        o2[key] = o3[key];
+                    } else {
+                        err += `o2[${key}]值为空;`
+                    }
+                }
+                if (err) {
+                    this.$notify({
+                        title: '提示',
+                        message: err,
+                        duration: 2000
+                    });
+                }
+                return JSON.stringify(o2)
+            },
             toJava(arr, swagger) {
                 return arr.reduce((t, cv, ci, arr) => {
                     if (cv) {
