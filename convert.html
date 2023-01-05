@@ -10,34 +10,34 @@
 </head>
 
 <body>
-    <div id="app">
-        <el-container>
-            <el-aside>
+<div id="app">
+    <el-container>
+        <el-aside>
 
-            </el-aside>
-            <el-main>
-                <el-row>
-                    <el-radio-group v-model="radio">
-                        <el-radio :label="1">列表转json</el-radio>
-                        <el-radio :label="2">列表转java</el-radio>
-                        <el-radio :label="3">json转java</el-radio>
-                    </el-radio-group>
-                </el-row>
-                <el-row style="margin-top:10px">
-                    <el-col :span="20">
-                        <el-input type="textarea" :rows="12" placeholder="请输入内容" v-model="in2">
-                        </el-input>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="20" style="margin-top:10px">
-                        <p> 点击文本复制：</p>
-                        <pre @click='copy'>{{out}}</pre>
-                    </el-col>
-                </el-row>
-            </el-main>
-        </el-container>
-    </div>
+        </el-aside>
+        <el-main>
+            <el-row>
+                <el-radio-group v-model="radio">
+                    <el-radio :label="1">列表转json</el-radio>
+                    <el-radio :label="2">列表转java</el-radio>
+                    <el-radio :label="3">json转java</el-radio>
+                </el-radio-group>
+            </el-row>
+            <el-row style="margin-top:10px">
+                <el-col :span="20">
+                    <el-input type="textarea" :rows="12" placeholder="请输入内容" v-model="in2">
+                    </el-input>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" style="margin-top:10px">
+                    <p> 点击文本复制：</p>
+                    <pre @click='copy'>{{out}}</pre>
+                </el-col>
+            </el-row>
+        </el-main>
+    </el-container>
+</div>
 
 </body>
 <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
@@ -52,10 +52,14 @@
                 switch (this.radio) {
                     case 1://list to json
                         var arr = this.in2.split(/\n|\s+|,/)
-                        res = JSON.stringify(arr.reduce((t, cv, ci, arr) => { if (cv) t[cv] = ''; return t }, {}));
+                        res = JSON.stringify(arr.reduce((t, cv, ci, arr) => {
+                            if (cv) t[cv] = '';
+                            return t
+                        }, {}));
                         break;
                     case 2://list to java
-                        var arr = this.in2.split(/\n|\s+|,/)
+                        // var arr = this.in2.split(/\n|\s+|,/)
+                        var arr = this.in2.split(/\n/)
                         res = this.toJava(arr, true)
                         break;
                     case 3://json to java
@@ -82,7 +86,22 @@
         },
         methods: {
             toJava(arr, swagger) {
-                return arr.reduce((t, cv, ci, arr) => { if (cv) t += `@ApiModelProperty(value="${cv}",required=true)\nprivate String ${cv};\n`; return t }, '')
+                return arr.reduce((t, cv, ci, arr) => {
+                    if (cv) {
+                        if (/\s+|,/.test(cv)) {
+                            //多列
+                            let split = cv.split(/\s+|,/);
+                            //取0跟2
+                            if (split && split[0] && split[1] && split[2]) {
+                                t += `@ApiModelProperty(value="${split[2]}",required=false)\nprivate ${split[1]} ${split[0]};\n`;
+                            }
+                        } else {
+                            //仅filed一列
+                            t += `@ApiModelProperty(value="${cv}",required=false)\nprivate String ${cv};\n`;
+                        }
+                    }
+                    return t
+                }, '')
             },
             copy() {
                 if (navigator.clipboard) {
