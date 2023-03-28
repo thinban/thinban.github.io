@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字典转sql</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-aside>
+        </el-aside>
+        <el-main>
+            <el-drawer title="我是标题"
+                       :visible.sync="drawer">
+                <el-form ref="form" :model="c" label-width="80px">
+                    <el-form-item label="字段索引">
+                        <el-input type="input" placeholder="table" v-model="c.f"></el-input>
+                    </el-form-item>
+                    <el-form-item label="表名索引">
+                        <el-input type="input" placeholder="table" v-model="c.ff"></el-input>
+                    </el-form-item>
+                    <el-form-item label="数据类型">
+                        <el-input type="input" placeholder="table" v-model="c.dt"></el-input>
+                    </el-form-item>
+                    <el-form-item label="主键索引">
+                        <el-input type="input" placeholder="table" v-model="c.pk"></el-input>
+                    </el-form-item>
+                    <el-form-item label="外键索引">
+                        <el-input type="input" placeholder="table" v-model="c.fk"></el-input>
+                    </el-form-item>
+                    <el-form-item label="非空索引">
+                        <el-input type="input" placeholder="table" v-model="c.nn"></el-input>
+                    </el-form-item>
+                    <el-form-item label="注释索引">
+                        <el-input type="input" placeholder="table" v-model="c.cm"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-drawer>
+            <el-button @click="drawer = true" type="primary">
+                配置字段索引
+            </el-button>
+            <el-row>
+                <el-col :span="20" style="margin-top:10px">
+                    <el-input type="input" placeholder="table" readonly v-model="table"></el-input>
+                </el-col>
+
+                <el-col :span="20" style="margin-top:10px">
+                    <el-input type="input" placeholder="tableZn" readonly v-model="tableZn"></el-input>
+                </el-col>
+            </el-row>
+            <el-row style="margin-top:10px">
+                <el-col :span="20">
+                    <el-input type="textarea" :rows="12" placeholder="带表头复制到这里，自动识别表名和表注释" v-model="in2">
+                    </el-input>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" style="margin-top:10px">
+                    <p> 点击文本复制：</p>
+                    <el-label @click='copy'>
+                        {{out}}
+                    </el-label>
+                </el-col>
+            </el-row>
+        </el-main>
+    </el-container>
+</div>
+</body>
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        computed: {
+            out() {
+                if (!this.in2) return '请正确输入'
+                let res = ''
+                switch (this.radio) {
+                    case 1://list to json
+                        // var arr = this.in2.split(/\n|\s+|,/)
+                        // res = JSON.stringify(arr.reduce((t, cv, ci, arr) => {
+                        //     if (cv) t[cv] = '';
+                        //     return t
+                        // }, {}));
+                        res = this.dictToSql()
+                        break;
+                }
+                return res;
+            }
+        },
+        data: function () {
+            return {
+                radio: 1,
+                drawer: false,
+                c: {
+                    f: 0,//字段
+                    ff: 1,//中文
+                    dt: 2,//数据类型
+                    pk: 3,//主键
+                    fk: 4,//外键
+                    nn: 5,//not null
+                    cm: 7//comment
+                },
+                table: "member_point",
+                tableZn: "会员积分表",
+                in2: ``
+            }
+        },
+        methods: {
+            toJava(arr, swagger) {
+                return arr.reduce((t, cv, ci, arr) => {
+                    if (cv) t += `@ApiModelProperty(value="${cv}",required=true)\nprivate String ${cv};\n`;
+                    return t
+                }, '')
+            },
+            dictToSql() {
+                //各行
+                let row = this.in2.split("\n");
+                var s = ""
+                var pk = ""
+                for (let i in row) {
+                    //行内各字段
+                    let f = row[i].split("\t");
+                    if (i == 0) {
+                        this.table = f[0]
+                        this.tableZn = f[2]
+                        console.log(this.table, this.tableZn)
+                        continue
+                    } else if (i == 1) {
+                        //表头
+                        continue
+                    } else {
+                        //初始化各个字段，避免报错
+                        let f_f = f && f.length > this.c.f ? f[this.c.f] : ''
+                        let f_ff = f && f.length > this.c.ff ? f[this.c.ff] : ''
+                        let f_dt = f && f.length > this.c.dt ? f[this.c.dt] : ''
+                        let f_pk = f && f.length > this.c.pk ? f[this.c.pk] : ''
+                        let f_fk = f && f.length > this.c.fk ? f[this.c.fk] : ''
+                        let f_nn = f && f.length > this.c.nn ? f[this.c.nn] : ''
+                        let f_cm = f && f.length > this.c.cm ? f[this.c.cm] : ''
+                        if (f && f.length > 7) {
+                            var pkk = ""
+                            if (f_pk.indexOf("是") > -1) {
+                                //主键
+                                pk = f_f
+                                if (f_dt.indexOf("int") > -1) {
+                                    pkk = " auto_increment "
+                                }
+                            }
+                            var notnull = f_nn.indexOf("是") > -1 ? ' not null ' : ''
+                            if (f_cm) f_cm = f_cm.replaceAll('\n', '')
+                            s += ` ${f_f}  ${f_dt} ${notnull} ${pkk} comment '${f_ff + f_cm}',\n`
+                        }
+                    }
+                }
+                s += `primary key (${pk})`
+
+                var tpl = `drop table if exists ${this.table};
+                create table ${this.table}
+                (
+                    ${s}
+                ) engine=innodb auto_increment=1 comment = '${this.tableZn}';`
+                // console.log(tpl)
+                return tpl
+            },
+            copy() {
+                var aux = document.createElement("input");
+                aux.setAttribute("value", this.out);
+                document.body.appendChild(aux);
+                aux.select();
+                document.execCommand("copy");
+                document.body.removeChild(aux);
+                this.$notify({
+                    title: '提示',
+                    message: '已复制',
+                    duration: 1000
+                });
+            }
+        }
+    })
+</script>
+</html>
