@@ -17,7 +17,8 @@
   "scripts": {
     "dev": "vitepress dev ",
     "build": "vitepress build ",
-    "serve": "vitepress serve "
+    "serve": "vitepress serve ",
+    "deploy": "sh build.sh"
   },
   "dependencies": {
     "dayjs": "^1.11.7",
