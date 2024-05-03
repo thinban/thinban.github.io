@@ -1,0 +1,155 @@
+import{_ as s,o as n,c as a,Q as e}from"./chunks/framework.1eb6b028.js";const m=JSON.parse('{"title":"0操作系统命令","description":"0操作系统命令","frontmatter":{"title":"0操作系统命令","description":"0操作系统命令","date":"2024-05-03T00:00:00.000Z","tags":["技术"]},"headers":[],"relativePath":"posts/知识整理/0操作系统命令.md","filePath":"posts/知识整理/0操作系统命令.md"}'),p={name:"posts/知识整理/0操作系统命令.md"},l=e(`<h2 id="linux" tabindex="-1">linux <a class="header-anchor" href="#linux" aria-label="Permalink to &quot;linux&quot;">​</a></h2><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki github-dark vp-code-dark"><code><span class="line"><span style="color:#e1e4e8;">cat /proc/cpuinfo</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/meminfo |grep MemTotal</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">uname -a               # Linux VM-20-2-ubuntu 5.4.0-42-generic #46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">hostname               # VM-20-2-ubuntu</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">head -n 1 /etc/issue   # Ubuntu 20.04 LTS \\n \\l</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">lspci -tv              # 列出所有PCI设备</span></span>
+<span class="line"><span style="color:#e1e4e8;">lsusb -tv              # 列出所有USB设备的linux系统信息命令</span></span>
+<span class="line"><span style="color:#e1e4e8;">lsmod                  # 列出加载的内核模块</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">env                    # 查看环境变量资源，vim ~/.bashrc    source vim ~/.bashrc</span></span>
+<span class="line"><span style="color:#e1e4e8;">free -m                # 查看内存使用量和交换区使用量</span></span>
+<span class="line"><span style="color:#e1e4e8;">df -h                  # 查看各分区使用情况</span></span>
+<span class="line"><span style="color:#e1e4e8;">du -sh                 # 查看指定目录的大小</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">uptime   # 查看系统运行时间、用户数、负载</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/loadavg      # 查看系统负载磁盘和分区</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">mount | column -t      # 查看挂接的分区状态</span></span>
+<span class="line"><span style="color:#e1e4e8;">fdisk -l               # 查看所有分区</span></span>
+<span class="line"><span style="color:#e1e4e8;">swapon -s              # 查看所有交换分区</span></span>
+<span class="line"><span style="color:#e1e4e8;">hdparm -i /dev/hda     # 查看磁盘参数(仅适用于IDE设备)</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">dmesg | grep IDE       # 查看启动时IDE设备检测状况网络</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">ifconfig               # 查看所有网络接口的属性</span></span>
+<span class="line"><span style="color:#e1e4e8;">iptables -L            # 查看防火墙设置</span></span>
+<span class="line"><span style="color:#e1e4e8;">route -n               # 查看路由表</span></span>
+<span class="line"><span style="color:#e1e4e8;">netstat -lntp          # 查看所有监听端口</span></span>
+<span class="line"><span style="color:#e1e4e8;">netstat -antp          # 查看所有已经建立的连接</span></span>
+<span class="line"><span style="color:#e1e4e8;">netstat -s             # 查看网络统计信息进程</span></span>
+<span class="line"><span style="color:#e1e4e8;">ps -ef                 # 查看所有进程</span></span>
+<span class="line"><span style="color:#e1e4e8;">top                    # 实时显示进程状态用户</span></span>
+<span class="line"><span style="color:#e1e4e8;">w                      # 查看活动用户</span></span>
+<span class="line"><span style="color:#e1e4e8;">id                     # 查看指定用户信息</span></span>
+<span class="line"><span style="color:#e1e4e8;">last                   # 查看用户登录日志</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">4.文件</span></span>
+<span class="line"><span style="color:#e1e4e8;">cut -d: -f1 /etc/passwd   # 查看系统所有用户</span></span>
+<span class="line"><span style="color:#e1e4e8;">cut -d: -f1 /etc/group    # 查看系统所有组</span></span>
+<span class="line"><span style="color:#e1e4e8;">crontab -l             # 查看当前用户的计划任务服务</span></span>
+<span class="line"><span style="color:#e1e4e8;">chkconfig –list       # 列出所有系统服务</span></span>
+<span class="line"><span style="color:#e1e4e8;">chkconfig –list | grep on    # 列出所有启动的系统服务程序</span></span>
+<span class="line"><span style="color:#e1e4e8;">rpm -qa                # 查看所有安装的软件包</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/cpuinfo      #查看CPU相关参数的linux系统命令</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/partitions   #查看linux硬盘和分区信息的系统信息命令</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/meminfo      #查看linux系统内存信息的linux系统命令</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/version      #查看版本，类似uname -r</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/ioports      #查看设备io端口</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/interrupts   #查看中断</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/pci          #查看pci设备的信息</span></span>
+<span class="line"><span style="color:#e1e4e8;">cat /proc/swaps        #查看所有swap分区的信息</span></span>
+<span class="line"><span style="color:#e1e4e8;">find / -name xxx</span></span>
+<span class="line"><span style="color:#e1e4e8;">find / -size +100000k</span></span>
+<span class="line"><span style="color:#e1e4e8;">find / -amin|-atime +10 # +表示10分/小时前，-表示内</span></span>
+<span class="line"><span style="color:#e1e4e8;">echo 233 &gt;&gt; abc.txt     # 内容追加</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">时间同步：</span></span>
+<span class="line"><span style="color:#e1e4e8;">date -s 12/22/14    改日期</span></span>
+<span class="line"><span style="color:#e1e4e8;">date -s 10:26:30    改时间</span></span>
+<span class="line"><span style="color:#e1e4e8;">hwclock -w          保存修改结果</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">用户管理</span></span>
+<span class="line"><span style="color:#e1e4e8;">useradd xxx</span></span>
+<span class="line"><span style="color:#e1e4e8;">passwd xxx      # /etc/password</span></span>
+<span class="line"><span style="color:#e1e4e8;">userdel xxx</span></span>
+<span class="line"><span style="color:#e1e4e8;">userdel -r xxx  # 同时移除用户目录</span></span>
+<span class="line"><span style="color:#e1e4e8;">groupadd  #  /etc/group</span></span>
+<span class="line"><span style="color:#e1e4e8;">usermod -g 组名 用户名   # 改变用户的组</span></span>
+<span class="line"><span style="color:#e1e4e8;"></span></span>
+<span class="line"><span style="color:#e1e4e8;">日历</span></span>
+<span class="line"><span style="color:#e1e4e8;">cal 7 2022</span></span>
+<span class="line"><span style="color:#e1e4e8;">cal 2022</span></span>
+<span class="line"><span style="color:#e1e4e8;">cal -j         # day of year</span></span></code></pre><pre class="shiki github-light vp-code-light"><code><span class="line"><span style="color:#24292e;">cat /proc/cpuinfo</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/meminfo |grep MemTotal</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">uname -a               # Linux VM-20-2-ubuntu 5.4.0-42-generic #46-Ubuntu SMP Fri Jul 10 00:24:02 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">hostname               # VM-20-2-ubuntu</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">head -n 1 /etc/issue   # Ubuntu 20.04 LTS \\n \\l</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">lspci -tv              # 列出所有PCI设备</span></span>
+<span class="line"><span style="color:#24292e;">lsusb -tv              # 列出所有USB设备的linux系统信息命令</span></span>
+<span class="line"><span style="color:#24292e;">lsmod                  # 列出加载的内核模块</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">env                    # 查看环境变量资源，vim ~/.bashrc    source vim ~/.bashrc</span></span>
+<span class="line"><span style="color:#24292e;">free -m                # 查看内存使用量和交换区使用量</span></span>
+<span class="line"><span style="color:#24292e;">df -h                  # 查看各分区使用情况</span></span>
+<span class="line"><span style="color:#24292e;">du -sh                 # 查看指定目录的大小</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">uptime   # 查看系统运行时间、用户数、负载</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/loadavg      # 查看系统负载磁盘和分区</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">mount | column -t      # 查看挂接的分区状态</span></span>
+<span class="line"><span style="color:#24292e;">fdisk -l               # 查看所有分区</span></span>
+<span class="line"><span style="color:#24292e;">swapon -s              # 查看所有交换分区</span></span>
+<span class="line"><span style="color:#24292e;">hdparm -i /dev/hda     # 查看磁盘参数(仅适用于IDE设备)</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">dmesg | grep IDE       # 查看启动时IDE设备检测状况网络</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">ifconfig               # 查看所有网络接口的属性</span></span>
+<span class="line"><span style="color:#24292e;">iptables -L            # 查看防火墙设置</span></span>
+<span class="line"><span style="color:#24292e;">route -n               # 查看路由表</span></span>
+<span class="line"><span style="color:#24292e;">netstat -lntp          # 查看所有监听端口</span></span>
+<span class="line"><span style="color:#24292e;">netstat -antp          # 查看所有已经建立的连接</span></span>
+<span class="line"><span style="color:#24292e;">netstat -s             # 查看网络统计信息进程</span></span>
+<span class="line"><span style="color:#24292e;">ps -ef                 # 查看所有进程</span></span>
+<span class="line"><span style="color:#24292e;">top                    # 实时显示进程状态用户</span></span>
+<span class="line"><span style="color:#24292e;">w                      # 查看活动用户</span></span>
+<span class="line"><span style="color:#24292e;">id                     # 查看指定用户信息</span></span>
+<span class="line"><span style="color:#24292e;">last                   # 查看用户登录日志</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">4.文件</span></span>
+<span class="line"><span style="color:#24292e;">cut -d: -f1 /etc/passwd   # 查看系统所有用户</span></span>
+<span class="line"><span style="color:#24292e;">cut -d: -f1 /etc/group    # 查看系统所有组</span></span>
+<span class="line"><span style="color:#24292e;">crontab -l             # 查看当前用户的计划任务服务</span></span>
+<span class="line"><span style="color:#24292e;">chkconfig –list       # 列出所有系统服务</span></span>
+<span class="line"><span style="color:#24292e;">chkconfig –list | grep on    # 列出所有启动的系统服务程序</span></span>
+<span class="line"><span style="color:#24292e;">rpm -qa                # 查看所有安装的软件包</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/cpuinfo      #查看CPU相关参数的linux系统命令</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/partitions   #查看linux硬盘和分区信息的系统信息命令</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/meminfo      #查看linux系统内存信息的linux系统命令</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/version      #查看版本，类似uname -r</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/ioports      #查看设备io端口</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/interrupts   #查看中断</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/pci          #查看pci设备的信息</span></span>
+<span class="line"><span style="color:#24292e;">cat /proc/swaps        #查看所有swap分区的信息</span></span>
+<span class="line"><span style="color:#24292e;">find / -name xxx</span></span>
+<span class="line"><span style="color:#24292e;">find / -size +100000k</span></span>
+<span class="line"><span style="color:#24292e;">find / -amin|-atime +10 # +表示10分/小时前，-表示内</span></span>
+<span class="line"><span style="color:#24292e;">echo 233 &gt;&gt; abc.txt     # 内容追加</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">时间同步：</span></span>
+<span class="line"><span style="color:#24292e;">date -s 12/22/14    改日期</span></span>
+<span class="line"><span style="color:#24292e;">date -s 10:26:30    改时间</span></span>
+<span class="line"><span style="color:#24292e;">hwclock -w          保存修改结果</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">用户管理</span></span>
+<span class="line"><span style="color:#24292e;">useradd xxx</span></span>
+<span class="line"><span style="color:#24292e;">passwd xxx      # /etc/password</span></span>
+<span class="line"><span style="color:#24292e;">userdel xxx</span></span>
+<span class="line"><span style="color:#24292e;">userdel -r xxx  # 同时移除用户目录</span></span>
+<span class="line"><span style="color:#24292e;">groupadd  #  /etc/group</span></span>
+<span class="line"><span style="color:#24292e;">usermod -g 组名 用户名   # 改变用户的组</span></span>
+<span class="line"><span style="color:#24292e;"></span></span>
+<span class="line"><span style="color:#24292e;">日历</span></span>
+<span class="line"><span style="color:#24292e;">cal 7 2022</span></span>
+<span class="line"><span style="color:#24292e;">cal 2022</span></span>
+<span class="line"><span style="color:#24292e;">cal -j         # day of year</span></span></code></pre></div><h2 id="windows" tabindex="-1">windows <a class="header-anchor" href="#windows" aria-label="Permalink to &quot;windows&quot;">​</a></h2><p>dxdiag 诊断工具 msconfig</p>`,4),c=[l];function o(t,i,r,y,u,d){return n(),a("div",null,c)}const f=s(p,[["render",o]]);export{m as __pageData,f as default};
