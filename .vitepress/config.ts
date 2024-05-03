@@ -56,10 +56,10 @@ async function config() {
           text: "🏡Blogs",
           link: "/",
         },
-        {
-          text: "🔖Tags",
-          link: "/tags",
-        },
+        // {
+        //   text: "🔖Tags",
+        //   link: "/tags",
+        // },
         {
           text: "📃Archives",
           link: "/archives",
@@ -81,7 +81,7 @@ async function config() {
       //     link: "mailto:rongchuancui@gmail.com",
       //   },
       // ],
-      outline: 2, //设置右侧aside显示层级
+      outline: [1,2], //设置右侧aside显示层级
       aside: true,
       // blogs page show firewokrs animation
       showFireworksAnimation: false,

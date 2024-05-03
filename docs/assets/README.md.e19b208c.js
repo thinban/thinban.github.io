@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a,k as s}from"./chunks/framework.1eb6b028.js";const f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"README.md","filePath":"README.md"}'),o={name:"README.md"},n=s("p",null,"自动构建 build.sh",-1),r=[n];function c(_,d,i,l,p,m){return t(),a("div",null,r)}const h=e(o,[["render",c]]);export{f as __pageData,h as default};

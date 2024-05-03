@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as n,Q as l}from"./chunks/framework.1eb6b028.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"posts/技术/网络/域名.md","filePath":"posts/技术/网络/域名.md"}'),e={name:"posts/技术/网络/域名.md"},o=l("",2),p=[o];function t(c,r,i,h,d,y){return a(),n("div",null,p)}const E=s(e,[["render",t]]);export{_ as __pageData,E as default};
