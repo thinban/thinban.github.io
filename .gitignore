@@ -15,3 +15,5 @@ yarn.lock
 .vscode/
 *.swp
 
+.vitepress/cache/
+
