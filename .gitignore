@@ -1,0 +1,17 @@
+# 忽略node_modules目录
+node_modules/
+
+# 忽略npm的缓存
+.npm/
+
+# 忽略yarn的缓存
+yarn-error.log
+yarn.lock
+
+# 忽略本地环境文件，如.env
+.env
+
+# 忽略编辑器生成的文件
+.vscode/
+*.swp
+
