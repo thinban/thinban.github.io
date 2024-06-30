@@ -24,6 +24,9 @@ export default defineConfig({
           { text: 'README.md', link: '/./README' },
           { text: 'redis.md', link: '/./redis' },
           { text: 'rocketmq.md', link: '/./rocketmq' },
+          { text: 'shell.md', link: '/./shell' },
+          { text: 'ubuntu.md', link: '/./ubuntu' },
+          { text: 'windows.md', link: '/./windows' },
         ]
       },
       {
