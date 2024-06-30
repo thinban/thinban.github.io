@@ -9,26 +9,30 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/index' },
     ],
-
     sidebar: [
-  {
-    text: 'index',
-   collapsible: true,
-    items: [
-{ text: 'docker-compose.md', link: '/./docker-compose' },
-{ text: 'docker.md', link: '/./docker' },
-{ text: 'redis.md', link: '/./redis' },
-{ text: 'index.md', link: '/./index' },
-{ text: 'mysql.md', link: '/./mysql' },
-    ]
-  },
-  {
-    text: 'dairy',        
-    collapsible: true,
-    items: [
-      { text: '20240629.md', link: '/dairy/20240629' },
-    ]
-  },
+      {
+        text: 'index',
+        collapsible: true,
+        items: [
+          { text: 'docker-compose.md', link: '/./docker-compose' },
+          { text: 'docker.md', link: '/./docker' },
+          { text: 'git.md', link: '/./git' },
+          { text: 'index.md', link: '/./index' },
+          { text: 'javacode.md', link: '/./javacode' },
+          { text: 'mybatisplus.md', link: '/./mybatisplus' },
+          { text: 'mysql.md', link: '/./mysql' },
+          { text: 'README.md', link: '/./README' },
+          { text: 'redis.md', link: '/./redis' },
+          { text: 'rocketmq.md', link: '/./rocketmq' },
+        ]
+      },
+      {
+        text: 'dairy',
+        collapsible: true,
+        items: [
+          { text: '20240629.md', link: '/dairy/20240629' },
+        ]
+      },
     ],
 
     socialLinks: [
