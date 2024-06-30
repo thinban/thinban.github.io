@@ -30,7 +30,7 @@ export default defineConfig({
         text: 'dairy',
         collapsible: true,
         items: [
-          { text: '20240629.md', link: '/dairy/20240629' },
+          { text: '20240630.md', link: '/dairy/20240630' },
         ]
       },
     ],

@@ -18,3 +18,8 @@ sudo systemctl enable docker
 ```shell
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <containername>
 ```
+
+# 获取ip
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' whoami_whoami_1
+```
