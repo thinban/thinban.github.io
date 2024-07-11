@@ -16,6 +16,7 @@ export default defineConfig({
         items: [
           { text: 'docker-compose.md', link: '/./docker-compose' },
           { text: 'docker.md', link: '/./docker' },
+          { text: 'dubbo.md', link: '/./dubbo' },
           { text: 'git.md', link: '/./git' },
           { text: 'index.md', link: '/./index' },
           { text: 'javacode.md', link: '/./javacode' },
