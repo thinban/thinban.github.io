@@ -1,1 +1,1 @@
-- [sql转换]([https://markdown.com.cn](https://www.sqlines.com/sqldata))。
+- [sql转换](https://www.sqlines.com/sqldata)
