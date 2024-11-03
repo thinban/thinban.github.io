@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as t,a1 as s}from"./chunks/framework.C46D9NsM.js";const m=JSON.parse('{"title":"后台运行","description":"","frontmatter":{},"headers":[],"relativePath":"os/shell.md","filePath":"os/shell.md"}'),o={name:"os/shell.md"},n=s("",2),l=[n];function c(i,p,r,_,d,h){return t(),a("div",null,l)}const g=e(o,[["render",c]]);export{m as __pageData,g as default};
