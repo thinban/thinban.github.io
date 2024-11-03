@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: "https://thinban.github.io/",
   title: "thinban's blog",
   description: "A VitePress Site",
   themeConfig: {
