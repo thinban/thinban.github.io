@@ -1,4 +1,4 @@
-# install
+# 安装
 ```shell
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io
@@ -9,17 +9,12 @@ sudo apt install docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
 sudo systemctl enable docker
 ```
-# one-line proxy setting
+# 设置国内代理
 ```shell
 ([ -f /etc/docker/daemon.json ] || mkdir -p /etc/docker) && echo '{ "registry-mirrors" : [ "https://docker.m.daocloud.io", "https://docker.jianmuhub.com",  "https://huecker.io", "https://dockerhub.timeweb.cloud", "https://dockerhub1.beget.com", "https://noohub.ru" ] }' > /etc/docker/daemon.json && sudo systemctl restart docker && sleep 1 && docker info | grep -A 6 "Registry Mirrors"·
 ```
 
-# container ip
-```shell
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <containername>
-```
-
-# 获取ip
+# 容器ip
 ```
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' whoami_whoami_1
 ```

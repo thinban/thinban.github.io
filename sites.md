@@ -1,1 +1,2 @@
 - [sql转换](https://www.sqlines.com/sqldata)
+- [paste bin](https://paste.c-net.org/)

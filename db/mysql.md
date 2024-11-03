@@ -1,4 +1,4 @@
-## docker-compose.yml
+# docker-compose.yml
 ```
 version: '3.8'
 
@@ -17,13 +17,12 @@ services:
       - ./mysql_data:/var/lib/mysql
 ```
 
-
-## 创建数据库
+# 创建数据库
 ```
 CREATE DATABASE <YOUR_DBNAME> CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-## 创建数据表和数据
+# 创建数据表和数据
 ```
 CREATE TABLE users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -44,4 +43,11 @@ INSERT INTO users (name, password, age, status, bool_del, created_at, updated_at
 VALUES ('Bob', 'hashed_password_here', 32, 1, 0, NOW(), NOW(), 1);
 INSERT INTO users (name, password, age, status, bool_del, created_at, updated_at, created_by, updated_by)
 VALUES ('Eve', 'hashed_password_here', 25, 1, 0, NOW(), NOW(), 2, 1);
+```
+
+# 导出表结构
+```
+select TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE, COLUMN_COMMENT,COLUMN_KEY,COLUMN_DEFAULT FROM information_schema.columns WHERE table_schema = 'mp0614';
+
+select * from user_col_comments m join USER_TAB_COLUMNS c where m.table_name=c.table_name and m.column_name=c.column_name;
 ```

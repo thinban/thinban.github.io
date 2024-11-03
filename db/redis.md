@@ -10,5 +10,4 @@ services:
       - "6379:6379"
     volumes:
       - ./redis_data:/data
-
 ```

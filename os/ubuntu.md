@@ -15,3 +15,23 @@
 # 网络配置
 	vi /etc/netplan/00-installer-config.yaml
 		dhcp-identifier: mac # 加上这一行。
+
+
+# 用户相关
+    cat /etc/passwd
+        root:x:0:0:root:/root:/bin/bash
+            x是密码占位符: 密码见/etc/shadow
+            0用户id
+            0组id
+            root是用户的描述信息
+            /root用户主目录
+            /bin/bash用户默认的shell
+        
+    sudo cat /etc/sudoers|grep -v "^#"
+        root    ALL=(ALL:ALL) ALL
+        %admin ALL=(ALL) ALL
+        %sudo   ALL=(ALL:ALL) ALL
+            %用户组
+            ALL任何主机或终端执行sudo
+            (ALL:ALL)表示组中的用户可以以任何用户身份（第一个ALL）和任何用户组身份（第二个ALL）来执行命令。
+            ALL表示组中的用户可以执行所有命令
