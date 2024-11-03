@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>linux</title>
+</head>
+<style>
+    .ml10 {
+        margin-left: 10px;
+    }
+</style>
+
+<body>
+    <ul>
+        <li>[hosts]</li>
+        <li><span class="copyable">thinban@192.168.31.204</span><span class="ml10"></span></li>
+        <li><span class="copyable">http://192.168.31.1#102120zgg</span><span class="ml10">xiaomi</span></li>
+        <li><span class="copyable">https://192.168.31.57:8006#root/thinban</span><span class="ml10">pve</span></li>
+        <li><span class="copyable">http://192.168.31.71:5000#thinban/AAA111aaa</span><span class="ml10">dsm</span></li>
+        <li><span class="copyable">http://192.168.31.71:8096/web/index.html#thinban/thinban</span><span class="ml10">jellyfin</span></li>
+    </ul>
+    <ul>
+        <li>[未分类]</li>
+        <li><span class="copyable">sudo vi /etc/hosts</span><span class="ml10">(配置hosts)</span></li>
+    </ul>
+    <ul>
+        <li>[ssh]</li>
+        <li><span class="copyable">ssh-keygen -t rsa -b 4096 -C "注释"</span><span class="ml10">(ssh key)</span></li>
+        <li><span class="copyable">ssh-copy-id user@hostname</span><span class="ml10">(ssh key拷贝)</span></li>
+    </ul>
+</body>
+<script>
+    async function copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (err) {
+        }
+    }
+
+    document.body.addEventListener('click', function (event) {
+        // 检查点击的元素是否是我们的 .copyable 元素
+        if (event.target.classList.contains('copyable')) {
+            // 如果是，调用复制函数
+            copyToClipboard(event.target.innerText);
+            // 可以在这里添加一些反馈，比如改变文本颜色或显示一个消息
+            event.target.style.color = 'green';
+            setTimeout(() => event.target.style.color = '', 1000); // 1秒后恢复颜色
+        }
+    });
+</script>
+
+</html>
