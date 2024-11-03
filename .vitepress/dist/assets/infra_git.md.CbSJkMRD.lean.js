@@ -1,0 +1,1 @@
+import{_ as a,c as t,o as e,a1 as n}from"./chunks/framework.C46D9NsM.js";const m=JSON.parse('{"title":"添加.gignore","description":"","frontmatter":{},"headers":[],"relativePath":"infra/git.md","filePath":"infra/git.md"}'),s={name:"infra/git.md"},i=n("",2),o=[i];function r(c,p,d,g,l,_){return e(),t("div",null,o)}const u=a(s,[["render",r]]);export{m as __pageData,u as default};
