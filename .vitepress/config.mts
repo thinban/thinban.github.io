@@ -13,32 +13,73 @@ export default defineConfig({
       {
         text: 'index',
         collapsible: true,
+        collapsed: true,
         items: [
-          { text: 'docker-compose.md', link: '/./docker-compose' },
-          { text: 'docker.md', link: '/./docker' },
-          { text: 'dubbo.md', link: '/./dubbo' },
-          { text: 'git.md', link: '/./git' },
           { text: 'index.md', link: '/./index' },
-          { text: 'javacode.md', link: '/./javacode' },
-          { text: 'mybatisplus.md', link: '/./mybatisplus' },
-          { text: 'mysql.md', link: '/./mysql' },
           { text: 'README.md', link: '/./README' },
-          { text: 'redis.md', link: '/./redis' },
-          { text: 'rocketmq.md', link: '/./rocketmq' },
-          { text: 'shell.md', link: '/./shell' },
-          { text: 'ubuntu.md', link: '/./ubuntu' },
-          { text: 'windows.md', link: '/./windows' },
+          { text: 'sites.md', link: '/./sites' },
         ]
       },
       {
-        text: 'dairy',
+        text: 'db',
         collapsible: true,
+        collapsed: true,
+        items: [
+          { text: 'mysql.md', link: '/db/mysql' },
+          { text: 'redis.md', link: '/db/redis' },
+        ]
+      },
+      {
+        text: 'mq',
+        collapsible: true,
+        collapsed: true,
+        items: [
+          { text: 'rocketmq.md', link: '/mq/rocketmq' },
+        ]
+      },
+
+      {
+        text: 'java',
+        collapsible: true,
+        collapsed: true,
+        items: [
+          { text: 'dubbo.md', link: '/java/dubbo' },
+          { text: 'javacode.md', link: '/java/javacode' },
+          { text: 'mail.md', link: '/java/mail' },
+          { text: 'mybatisplus.md', link: '/java/mybatisplus' },
+        ]
+      },
+      {
+        text: 'infra',
+        collapsible: true,
+        collapsed: true,
+        items: [
+          { text: 'docker-compose.md', link: '/infra/docker-compose' },
+          { text: 'docker.md', link: '/infra/docker' },
+          { text: 'git.md', link: '/infra/git' },
+        ]
+      },
+      {
+        text: 'os',
+        collapsible: true,
+        collapsed: true,
+        items: [
+          { text: 'shell.md', link: '/os/shell' },
+          { text: 'ubuntu.md', link: '/os/ubuntu' },
+          { text: 'windows.md', link: '/os/windows' },
+        ]
+      },
+      {
+        text: 'life',
+        collapsible: true,
+        collapsed: true,
         items: [
           { text: '20240630.md', link: '/dairy/20240630' },
+          { text: '20240713_一人之下.md', link: '/dairy/20240713_一人之下' },
+          { text: '20240721周日.md', link: '/dairy/20240721周日' },
         ]
       },
     ],
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     ]
