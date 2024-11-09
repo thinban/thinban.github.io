@@ -6,3 +6,6 @@ ctrl k	删除光标之后的整行内容。
 
 cmd shift 4 截屏
 cmd ctrl shift 4 截屏到截切板
+
+# 命令行拷贝
+echo 'content'|pbcopy

@@ -4,3 +4,8 @@
 - npm run docs:build
 - ## git 命令
 - git add .&&git commit -m 'deploy'&&git push -u main main
+
+# npm源
+npm config set registry https://registry.npmmirror.com
+
+npm config rm registry
