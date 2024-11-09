@@ -1,2 +1,3 @@
 - [sql转换](https://www.sqlines.com/sqldata)
 - [paste bin](https://paste.c-net.org/)
+- [文生ppt](https://aipptmaker.ai/en)

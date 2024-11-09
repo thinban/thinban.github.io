@@ -1,11 +1,9 @@
-# vitepress
-- 官网：https://vitepress.dev/guide/getting-started
-- npm run docs:dev -- --host
-- npm run docs:build
-- ## git 命令
-- git add .&&git commit -m 'deploy'&&git push -u main main
-
-# npm源
-npm config set registry https://registry.npmmirror.com
-
-npm config rm registry
+# 项目打包
+    https://vitepress.dev/guide/getting-started
+            npm config set registry https://registry.npmmirror.com
+            #npm config rm registry
+            npm add -D vitepress
+    npm run docs:dev -- --host
+    npm run docs:build
+# 推送仓库
+git add .&&git commit -m 'deploy'&&git push -u main main
