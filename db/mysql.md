@@ -1,3 +1,6 @@
+# docker部署
+参见[dc-mysql](../template/dc-mysql.md)
+
 # 创建数据库
 ```
 CREATE DATABASE <YOUR_DBNAME> CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

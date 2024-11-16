@@ -9,10 +9,43 @@ sudo apt install docker-ce docker-ce-cli containerd.io
 sudo systemctl start docker
 sudo systemctl enable docker
 ```
-# 设置国内代理
-```shell
-([ -f /etc/docker/daemon.json ] || mkdir -p /etc/docker) && echo '{ "registry-mirrors" : [ "https://docker.m.daocloud.io", "https://docker.jianmuhub.com",  "https://huecker.io", "https://dockerhub.timeweb.cloud", "https://dockerhub1.beget.com", "https://noohub.ru" ] }' > /etc/docker/daemon.json && sudo systemctl restart docker && sleep 1 && docker info | grep -A 6 "Registry Mirrors"·
+# 国内无法访问下载 Docker 镜像的多种解决方案
+https://isedu.top/index.php/archives/225/#menu_index_7
+
+列出了多种方法，包括添加镜像、Docker 使用 HTTP 代理、CF worker绑定自定义域名、自建等，由于第二步就生效了，就没有测试其他方法。
+
+## 1. 添加镜像（不生效）
+无法拉取镜像（registry-1.docker.io time out)
 ```
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+    "registry-mirrors": [
+        "https://docker.m.daocloud.io",
+        "https://huecker.io",
+        "https://dockerhub.timeweb.cloud",
+        "https://noohub.ru"
+    ]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+## 2. Docker 使用 HTTP 代理(生效)
+```
+mkdir -p /etc/systemd/system/docker.service.d
+vim /etc/systemd/system/docker.service.d/http-proxy.conf
+    [Service]
+    Environment="HTTP_PROXY=http://USERNAME:PASSWORD@[your.proxy.server]:[port]"
+    Environment="HTTPS_PROXY=http://USERNAME:PASSWORD@[your.proxy.server]:[port]0"
+    Environment="NO_PROXY=localhost,127.0.0.1,.example.com"
+systemctl daemon-reload
+systemctl restart docker
+# 检查配置
+systemctl show --property=Environment docker
+```
+
 
 # 容器ip
 ```
