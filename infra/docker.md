@@ -47,7 +47,7 @@ systemctl show --property=Environment docker
 ```
 
 
-# 容器ip
+# 容器ip获取
 ```
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' whoami_whoami_1
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' XXX
 ```

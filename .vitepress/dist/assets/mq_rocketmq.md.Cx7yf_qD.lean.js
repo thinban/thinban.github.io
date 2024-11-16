@@ -1,1 +1,0 @@
-import{_ as s,c as a,o as n,a1 as p}from"./chunks/framework.C46D9NsM.js";const q=JSON.parse('{"title":"RocketMQ","description":"","frontmatter":{},"headers":[],"relativePath":"mq/rocketmq.md","filePath":"mq/rocketmq.md"}'),e={name:"mq/rocketmq.md"},l=p("",17),i=[l];function t(c,o,r,h,d,m){return n(),a("div",null,i)}const u=s(e,[["render",t]]);export{q as __pageData,u as default};

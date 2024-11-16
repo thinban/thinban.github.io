@@ -1,7 +1,7 @@
 # 常用代码
 ## 后台执行
 ```
-nohub xxx >> output.log 2>&1 &
+nohup xxx >> output.log 2>&1 &
 ```
 
 ## nginx日志按指定时间统计url访问次数
@@ -11,16 +11,21 @@ sed -n '/2024:11:01:00:00:00/,/2024:11:03:23:59:59/p' access.log > temp.log
 awk '{print $7}' temp.log | sort | uniq -c | sort -nr
 ```
 
-# 重要命令
+# 常用命令
 sed -n 抑制标准输出,直到命令p,例如
 `sed -n '/2024:11:01:00:00:00/,/2024:11:03:23:59:59/p' access.log > temp.log`
 
+## sed 批量替换文件内容
+sed -i "s/localhost/lab.io/g" `grep lab.io -rl .`
+
 ## find
 find . -name "*.txt"
-find. -type f
-find. -size +10M
-find. -mtime -1  *过去一天
+find . -type f
+find . -size +10M
+find . -mtime -1  *过去一天
 
+## du
+du -ah . | sort -rh | head -n 10
 
 # 语法
 ## 参数

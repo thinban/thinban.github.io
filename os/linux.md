@@ -1,3 +1,14 @@
+# 监控
+https://github.com/aksakalli/gtop
+    $ docker run --rm -it --name gtop --net="host" --pid="host" aksakalli/gtop
+    $ ln -s ~/run_dockder_gtop.sh /usr/local/bin/gtop
+        $ rm /usr/local/bin/gtop
+
+# 加入环境变量
+    vi ~/.bashrc
+    export PATH=$PATH:/home/user/scripts
+    source ~/.bashrc
+
 # 替换更新源
 	cat /etc/apt/sources.list
 	apt update&&apt upgrade

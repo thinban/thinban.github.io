@@ -1,1 +1,0 @@
-import{_ as n,c as s,o as a,a1 as p}from"./chunks/framework.C46D9NsM.js";const v=JSON.parse('{"title":"dubbo","description":"","frontmatter":{},"headers":[],"relativePath":"java/dubbo.md","filePath":"java/dubbo.md"}'),e={name:"java/dubbo.md"},l=p("",6),i=[l];function t(c,r,o,b,h,d){return a(),s("div",null,i)}const m=n(e,[["render",t]]);export{v as __pageData,m as default};

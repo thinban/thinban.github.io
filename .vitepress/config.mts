@@ -40,7 +40,7 @@ export default defineConfig({
         { text: 'java', collapsible: true, collapsed: true, items: [{ text: 'dubbo', link: '/java/dubbo.md' }, { text: 'javacode', link: '/java/javacode.md' }, { text: 'mail', link: '/java/mail.md' }, { text: 'mybatisplus', link: '/java/mybatisplus.md' }, { text: 'springcloud', link: '/java/springcloud.md' }, { text: '网关参数', link: '/java/网关参数.md' }] },
         { text: 'mq', collapsible: true, collapsed: true, items: [{ text: 'rocketmq', link: '/mq/rocketmq.md' }] },
         { text: 'os', collapsible: true, collapsed: true, items: [{ text: 'linux', link: '/os/linux.md' }, { text: 'macos', link: '/os/macos.md' }, { text: 'shell', link: '/os/shell.md' }, { text: 'windows', link: '/os/windows.md' }] },
-        { text: 'template', collapsible: true, collapsed: true, items: [{ text: 'dc-mysql', link: '/template/dc-mysql.md' }, { text: 'dc-nexus', link: '/template/dc-nexus.md' }, { text: 'dc-nginx', link: '/template/dc-nginx.md' }, { text: 'dc-redis', link: '/template/dc-redis.md' }] },
+        { text: 'template', collapsible: true, collapsed: true, items: [{ text: 'dc-mysql', link: '/template/dc-mysql.md' }, { text: 'dc-nexus', link: '/template/dc-nexus.md' }, { text: 'dc-nginx', link: '/template/dc-nginx.md' }, { text: 'dc-redis', link: '/template/dc-redis.md' }, { text: 'dc-rocketmq', link: '/template/dc-rocketmq.md' }] },
         { text: '.', collapsible: true, collapsed: true, items: [{ text: 'index', link: '/index.md' }, { text: 'README', link: '/README.md' }, { text: 'sites', link: '/sites.md' }] },
       ],
     socialLinks: [
