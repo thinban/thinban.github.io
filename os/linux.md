@@ -13,6 +13,9 @@ https://github.com/aksakalli/gtop
 	cat /etc/apt/sources.list
 	apt update&&apt upgrade
 
+# 修改hosts
+    vi /etc/hosts
+
 # 磁盘扩容
     fdisk -l #查看磁盘分区
     parted /dev/sda

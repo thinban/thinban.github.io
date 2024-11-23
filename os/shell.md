@@ -4,6 +4,11 @@
 nohup xxx >> output.log 2>&1 &
 ```
 
+## curl命令
+```
+curl -O https://github.com/apolloconfig/apollo-quick-start/blob/master/sql/apolloportaldb.sql
+```
+
 ## nginx日志按指定时间统计url访问次数
 ```shell
 sed -n '/2024:11:01:00:00:00/,/2024:11:03:23:59:59/p' access.log > temp.log

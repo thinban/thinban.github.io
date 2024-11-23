@@ -5,6 +5,18 @@
 ```
 CREATE DATABASE <YOUR_DBNAME> CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
+# 用户创建&用户授权
+```
+CREATE USER 'your_username'@'主机名' IDENTIFIED BY '密码';
+
+GRANT ALL PRIVILEGES ON *.* TO 'your_username'@'%';
+    GRANT 权限列表 ON 数据库名.表名 TO 'your_username'@'主机名';
+    REVOKE 权限列表 ON 数据库名.表名 FROM 'your_username'@'主机名';
+
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'your_username'@'主机名';
+```
 
 # 创建数据表和数据
 ```
