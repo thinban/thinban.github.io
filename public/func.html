@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态函数执行示例</title>
+    <style>
+        input {
+            width: 700px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <textarea id="arrayData" rows="10" cols="100">1
+2
+3</textarea>
+</div>
+<div>
+    <textarea id="arrayData2" rows="10" cols="100">b</textarea>
+</div>
+<div>
+    <input type="text" id="functionText"
+           value="(a,b)=>a.split('\n').map(e=>e+b).join('\n')"
+           placeholder="请输入完整函数内容（例如：function test(arr) { return arr.reduce((acc, cur) => acc + cur, 0); }">
+</div>
+<div>
+    <button id="executeButton">执行函数</button>
+</div>
+<div id="resultDiv"></div>
+<pre id="res"></pre>
+<script>
+    // 获取页面元素
+    const functionTextInput = document.getElementById('functionText');
+    const arrayDataInput = document.getElementById('arrayData');
+    const arrayDataInput2 = document.getElementById('arrayData2');
+    const executeButton = document.getElementById('executeButton');
+    const res = document.getElementById('res');
+
+    executeButton.addEventListener('click', () => {
+        const functionText = functionTextInput.value;
+        // const arrayData = JSON.parse(arrayDataInput.value);
+        const arrayData = arrayDataInput.value
+        const arrayData2 = arrayDataInput2.value
+        try {
+            // 创建一个匿名函数包裹用户输入的函数内容，避免变量作用域等问题
+            const wrapperFunction = new Function(`return (${functionText})`);
+            // 获取真正的函数对象
+            const actualFunction = wrapperFunction();
+            // 检查获取到的是否是一个函数，如果是则执行并获取结果
+            if (typeof actualFunction === 'function') {
+                const result = actualFunction(arrayData, arrayData2);
+                console.log(result)
+                res.textContent = result
+            } else {
+                console.error("输入的内容不是有效的函数定义")
+            }
+        } catch (error) {
+            console.error(`执行出错：${error.message}`)
+        }
+    });
+</script>
+</body>
+
+</html>
