@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>集合计算</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            height: 250px;
+            /*border: 1px solid gray;*/
+        }
+
+        .item {
+            flex: 1;
+            /*text-align: center;*/
+            /*line-height: 100px;*/
+            /*background-color: lightcoral;*/
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="container">
+        <div class="item">
+            <h2>a1</h2>
+            <textarea id="il" cols="80" rows="10">JDLX-2409-00554
+JDLX-2409-00594
+JDLX-2408-00495</textarea>
+        </div>
+        <div class="item">
+            <h2>a2</h2>
+            <textarea id="ir" cols="80" rows="10">JDLX-2408-00495
+JDLX-2408-00508
+        </textarea>
+        </div>
+        <div class="item"><input type="submit" id="btn"></div>
+    </div>
+
+    <div class="container">
+        <div class="item">
+            <h2>交集</h2>
+            <div id="u"></div>
+        </div>
+        <div class="item">
+            <h2>差集a1-a2</h2>
+            <div id="l"></div>
+        </div>
+        <div class="item">
+            <h2>差集a2-a1</h2>
+            <div id="r"></div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('btn').addEventListener('click', function (e) {
+        e.preventDefault(); // 阻止表单默认提交行为
+        const ilValue = document.getElementById('il').value;
+        const irValue = document.getElementById('ir').value;
+        const arr1 = ilValue.split('\n').filter(item => item.trim() !== '');
+        const arr2 = irValue.split('\n').filter(item => item.trim() !== '');
+        console.log('arr1', arr1, ',arr2', arr2)
+        const hj = intersection(arr1, arr2)
+        const a1a2 = difference(arr1, arr2);
+        const a2a1 = difference(arr2, arr1);
+        document.getElementById('u').innerText = hj.join('\n');
+        document.getElementById('l').innerText = a1a2.join('\n');
+        document.getElementById('r').innerText = a2a1.join('\n');
+    });
+
+    function union(arr1, arr2) {
+        return [...new Set([...arr1, ...arr2])];
+    }
+
+    function difference(arr1, arr2) {
+        return arr1.filter(item => !arr2.includes(item));
+    }
+
+    // 定义计算交集（公共部分集合）的函数
+    function intersection(arr1, arr2) {
+        return arr1.filter(item => arr2.includes(item));
+    }
+</script>
+</body>
+</html>
