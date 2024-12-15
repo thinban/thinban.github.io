@@ -43,7 +43,7 @@ export default defineConfig({
         { text: 'network', collapsible: true, collapsed: true, items: [{ text: '网络抓包', link: '/network/网络抓包.md' }] },
         { text: 'os', collapsible: true, collapsed: true, items: [{ text: 'linux', link: '/os/linux.md' }, { text: 'macos', link: '/os/macos.md' }, { text: 'shell', link: '/os/shell.md' }, { text: 'windows', link: '/os/windows.md' }] },
         { text: 'template', collapsible: true, collapsed: true, items: [{ text: 'dc-apollo', link: '/template/dc-apollo.md' }, { text: 'dc-mysql', link: '/template/dc-mysql.md' }, { text: 'dc-nexus', link: '/template/dc-nexus.md' }, { text: 'dc-nginx', link: '/template/dc-nginx.md' }, { text: 'dc-redis', link: '/template/dc-redis.md' }, { text: 'dc-rocketmq', link: '/template/dc-rocketmq.md' }] },
-        { text: '.', collapsible: true, collapsed: true, items: [{ text: 'index', link: '/index.md' }, { text: 'README', link: '/README.md' }, { text: 'sites', link: '/sites.md' }] },
+        { text: '.', collapsible: true, collapsed: true, items: [{ text: 'index', link: '/index.md' }, { text: 'README', link: '/README.md' }] },
       ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
