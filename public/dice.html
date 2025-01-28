@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no">
+    <title>摇骰子游戏</title>
+    <style>
+        /* 包裹canvas的div */
+        #canvas-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('bg.jpeg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-wrapper">
+        <canvas id="canvas"></canvas>
+    </div>
+    <button onclick="rollDice()">摇骰子</button>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const images = {
+            '葫芦': new Image(),
+            '骰子': new Image(),
+            '螃蟹': new Image(),
+            '鱼': new Image(),
+            '鸡': new Image(),
+            '虾': new Image()
+        };
+        images['葫芦'].src = 'hulu.png';
+        images['骰子'].src = 'tongqian.png';
+        images['螃蟹'].src = 'pangxie.png';
+        images['鱼'].src = 'yu.png';
+        images['鸡'].src = 'ji.png';
+        images['虾'].src = 'xia.png';
+        let diceFaces = ['葫芦', '骰子', '螃蟹', '鱼', '鸡', '虾'];
+        let diceValues = [0, 0, 0];
+
+        function drawDice() {
+            for (let i = 0; i < 3; i++) {
+                // 缩小骰子图片尺寸
+                let diceWidth = 45;
+                let diceHeight = 20;
+                // 根据缩小后的尺寸调整骰子位置
+                let x = canvas.width / 3 * i + (canvas.width / 6-diceWidth / 2);
+                let y = canvas.height / 2-diceHeight / 2;
+                ctx.drawImage(images[diceFaces[diceValues[i]]], x, y, diceWidth, diceHeight);
+            }
+        }
+
+        function rollDice() {
+            for (let i = 0; i < 3; i++) {
+                diceValues[i] = Math.floor(Math.random() * 6);
+            }
+            animateDice();
+        }
+
+        function animateDice() {
+            let frame = 0;
+            let intervalId = setInterval(() => {
+                for (let i = 0; i < 3; i++) {
+                    diceValues[i] = Math.floor(Math.random() * 6);
+                }
+                drawDice();
+                frame++;
+                if (frame > 10) {
+                    clearInterval(intervalId);
+                }
+            }, 100);
+        }
+
+        // 初始绘制骰子
+        drawDice();
+
+        canvas.addEventListener('click', rollDice);
+    </script>
+</body>
+
+</html>
