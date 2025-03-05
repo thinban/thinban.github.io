@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no">
-    <title>摇骰子游戏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>高清骰子游戏</title>
     <style>
-        /* 包裹canvas的div */
         #canvas-wrapper {
             width: 100vw;
             height: 100vh;
@@ -37,6 +36,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            z-index: 10;
         }
     </style>
 </head>
@@ -49,61 +49,103 @@
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-
-        const images = {
-            '葫芦': new Image(),
-            '骰子': new Image(),
-            '螃蟹': new Image(),
-            '鱼': new Image(),
-            '鸡': new Image(),
-            '虾': new Image()
-        };
-        images['葫芦'].src = 'hulu.png';
-        images['骰子'].src = 'tongqian.png';
-        images['螃蟹'].src = 'pangxie.png';
-        images['鱼'].src = 'yu.png';
-        images['鸡'].src = 'ji.png';
-        images['虾'].src = 'xia.png';
-        let diceFaces = ['葫芦', '骰子', '螃蟹', '鱼', '鸡', '虾'];
+        const dpr = window.devicePixelRatio || 1;
+        const diceFaces = ['葫芦', '骰子', '螃蟹', '鱼', '鸡', '虾'];
         let diceValues = [0, 0, 0];
+        let isAnimating = false;
+
+        // 图片预加载
+        const images = {};
+        const imagePromises = Object.entries({
+            '葫芦': 'hulu.png',
+            '骰子': 'tongqian.png',
+            '螃蟹': 'pangxie.png',
+            '鱼': 'yu.png',
+            '鸡': 'ji.png',
+            '虾': 'xia.png'
+        }).map(([key, src]) => new Promise(resolve => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                images[key] = img;
+                resolve();
+            };
+        }));
+
+        // Canvas分辨率适配
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+        }
 
         function drawDice() {
+            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+            
+            // 绘制参数
+            const baseSize = 80; // 基础尺寸（物理像素）
+            const aspectRatio = 1; // 根据实际图片比例调整
+            const spacing = 20; // 骰子间距
+
             for (let i = 0; i < 3; i++) {
-                // 缩小骰子图片尺寸
-                let diceWidth = 45;
-                let diceHeight = 20;
-                // 根据缩小后的尺寸调整骰子位置
-                let x = canvas.width / 3 * i + (canvas.width / 6-diceWidth / 2);
-                let y = canvas.height / 2-diceHeight / 2;
-                ctx.drawImage(images[diceFaces[diceValues[i]]], x, y, diceWidth, diceHeight);
+                const img = images[diceFaces[diceValues[i]]];
+                if (!img) continue;
+
+                // 计算绘制尺寸
+                const width = baseSize;
+                const height = baseSize * aspectRatio;
+
+                // 计算位置（逻辑像素）
+                const containerWidth = (canvas.width / dpr - spacing * 2) / 3;
+                const x = containerWidth * i + spacing * i + (containerWidth - width) / 2;
+                const y = (canvas.height / dpr - height) / 2;
+
+                // 高质量绘制
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, x, y, width, height);
             }
         }
 
         function rollDice() {
-            for (let i = 0; i < 3; i++) {
-                diceValues[i] = Math.floor(Math.random() * 6);
-            }
-            animateDice();
-        }
-
-        function animateDice() {
-            let frame = 0;
-            let intervalId = setInterval(() => {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            let frameCount = 0;
+            const animate = () => {
                 for (let i = 0; i < 3; i++) {
                     diceValues[i] = Math.floor(Math.random() * 6);
                 }
                 drawDice();
-                frame++;
-                if (frame > 10) {
-                    clearInterval(intervalId);
+                if (frameCount++ < 30) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isAnimating = false;
+                    showResult();
                 }
-            }, 100);
+            };
+            
+            requestAnimationFrame(animate);
         }
 
-        // 初始绘制骰子
-        drawDice();
+        function showResult() {
+            const results = diceValues.map(i => diceFaces[i]);
+            console.log('本次结果：', results);
+            // 可以添加结果显示逻辑
+        }
 
-        canvas.addEventListener('click', rollDice);
+        // 初始化
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            drawDice();
+        });
+
+        Promise.all(imagePromises).then(() => {
+            resizeCanvas();
+            drawDice();
+            canvas.addEventListener('click', rollDice);
+        });
     </script>
 </body>
 
