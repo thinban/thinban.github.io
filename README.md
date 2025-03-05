@@ -6,4 +6,4 @@
     npm run docs:dev -- --host
     npm run docs:build
 # 推送仓库
-git add .&&git commit -m 'deploy'&&git push -u main main
+git add .&&git commit -m 'deploy'&&git push -u main main 
