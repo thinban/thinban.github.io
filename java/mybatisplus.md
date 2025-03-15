@@ -40,16 +40,11 @@ mybatis-plus:
       logic-not-delete-value: 0
 ```
 
-- java
+## MybatisConfig.java
 ```
-@MapperScan("com.example.mybatisplus.mapper")
-@SpringBootApplication
-public class MybatisplusApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(MybatisplusApplication.class, args);
-    }
-
+@MapperScan("com.example.xhs0228.mapper")
+@Component
+public class MybatisConfig {
     /**
      * 添加分页插件
      */
@@ -61,4 +56,5 @@ public class MybatisplusApplication {
         return interceptor;
     }
 }
+
 ```

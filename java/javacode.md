@@ -1,127 +1,144 @@
-## mybatisplus反射构建查询
+# cst.java
 ```
-  public static String camelToSnakeCase(String camelCase) {
-        return camelCase.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
-  }
+public interface cst {
+    String ok = "ok";
+    String fail = "fail";
 
-  public static void buildQry(QueryWrapper q, Class<?> cls, Object obj) throws IllegalAccessException {
-        if (q == null || cls == null || obj == null) return;
-        Field[] declaredFields = cls.getDeclaredFields();
-        for (Field declaredField : declaredFields) {
-            String name = declaredField.getName();
-            Class type = declaredField.getType();
-            declaredField.setAccessible(true);
-            Object val = declaredField.get(obj);
-            if (Arrays.asList("serialVersionUID").contains(name) || val == null) continue;
-//            System.out.println(name);
-//            System.out.println(val);
-//            System.out.println(type);
-//            System.out.println();
-
-            name = camelToSnakeCase(name);
-            boolean boolDigit = type == Integer.class || type == int.class || type == Long.class || type == long.class || type == Double.class || type == double.class || type == Float.class || type == float.class;
-            if (boolDigit) {
-                q.eq(name, val);
-            } else if (type == Date.class) {
-                LocalDateTime localDateTime = LocalDateTime.ofInstant(((Date) val).toInstant(), ZoneId.systemDefault());
-                LocalDateTime startOfDay = localDateTime.toLocalDate().atStartOfDay();
-                LocalDateTime nextDayStart = startOfDay.plusDays(1).minusSeconds(1);
-                q.between(name, startOfDay, nextDayStart);
-            } else if (type == LocalDateTime.class) {
-                LocalDateTime localDateTime = (LocalDateTime) val;
-                LocalDateTime startOfDay = localDateTime.toLocalDate().atStartOfDay();
-                LocalDateTime nextDayStart = startOfDay.plusDays(1).minusSeconds(1);
-                q.between(name, startOfDay, nextDayStart);
-            } else {
-                q.like(name, val);
+    static void buildQuery(Object m, QueryWrapper q) {
+        if (Objects.nonNull(m)) {
+            Class<?> clazz = m.getClass();
+            try {
+                PropertyDescriptor[] propertyDescriptors = java.beans.Introspector.getBeanInfo(clazz, Object.class).getPropertyDescriptors();
+                for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+                    String propertyName = propertyDescriptor.getName();
+                    Method readMethod = propertyDescriptor.getReadMethod();
+                    Object value = readMethod.invoke(m);
+                    if (Objects.nonNull(value)) {
+                        Method columnMethod = User.class.getMethod("get" + propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1));
+                        q.eq(columnMethod.getName().substring(3), value);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
+}
 
 ```
 
-## mybatisplus单表增删改查
+# SpringContextUtil.java 
 ```
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.mybatisplus.domain.XhsUser;
-import com.example.mybatisplus.service.XhsUserService;
-import jakarta.annotation.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+@Component
+public class SpringContextUtil implements ApplicationContextAware {
 
-import java.lang.reflect.Field;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
+    private static ApplicationContext applicationContext;
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringContextUtil.applicationContext = applicationContext;
+    }
+
+    /**
+     * 根据 Bean 名称获取 Bean 实例
+     *
+     * @param name Bean 的名称
+     * @return Bean 实例
+     */
+    public static Object getBean(String name) {
+        return applicationContext.getBean(name);
+    }
+
+    /**
+     * 根据 Bean 类型获取 Bean 实例
+     *
+     * @param requiredType Bean 的类型
+     * @param <T>          Bean 的泛型类型
+     * @return Bean 实例
+     */
+    public static <T> T getBean(Class<T> requiredType) {
+        return applicationContext.getBean(requiredType);
+    }
+
+    /**
+     * 根据 Bean 名称和类型获取 Bean 实例
+     *
+     * @param name         Bean 的名称
+     * @param requiredType Bean 的类型
+     * @param <T>          Bean 的泛型类型
+     * @return Bean 实例
+     */
+    public static <T> T getBean(String name, Class<T> requiredType) {
+        return applicationContext.getBean(name, requiredType);
+    }
+
+    /**
+     * 判断 Spring 容器中是否包含指定名称的 Bean
+     *
+     * @param name Bean 的名称
+     * @return 如果包含返回 true，否则返回 false
+     */
+    public static boolean containsBean(String name) {
+        return applicationContext.containsBean(name);
+    }
+
+    /**
+     * 判断指定名称的 Bean 是否为单例
+     *
+     * @param name Bean 的名称
+     * @return 如果是单例返回 true，否则返回 false
+     */
+    public static boolean isSingleton(String name) {
+        return applicationContext.isSingleton(name);
+    }
+
+    /**
+     * 获取指定名称 Bean 的类型
+     *
+     * @param name Bean 的名称
+     * @return Bean 的类型
+     */
+    public static Class<?> getType(String name) {
+        return applicationContext.getType(name);
+    }
+}
+```
+
+# SysUserController.java
+```
 @RestController
-@RequestMapping("XhsUser")
-public class XhsUserController {
-    @Resource
-    XhsUserService service;
+@RequestMapping("/sys/user")
+public class SysUserController {
 
-    //?current=1&size=1
-    //需要额外参数支持： 排序，范围查询
-    @GetMapping("page")
-    public ResponseEntity<IPage<XhsUser>> page(Page p, XhsUser m) throws IllegalAccessException {
-        QueryWrapper q = new QueryWrapper<XhsUser>();
-        buildQry(q, XhsUser.class, m);
-        Page page = service.page(p, q);
+    @Autowired
+    UserService userService;
+
+    @GetMapping
+    public ResponseEntity page(Page<User> p, User m) {
+        QueryWrapper<User> q = new QueryWrapper<>();
+        cst.buildQuery(m, q);
+        IPage<User> page = userService.page(p, q);
         return ResponseEntity.ok(page);
     }
 
-    @PostMapping("add")
-    public ResponseEntity add(@RequestBody XhsUser m) {
-        return service.save(m) ? ResponseEntity.ok(m) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("操作失败");
+    @GetMapping("/{id}")
+    public ResponseEntity getById(@PathVariable Integer id) {
+        User user = userService.getById(id);
+        return ResponseEntity.ok(user);
     }
 
-    @PutMapping("edit")
-    public ResponseEntity edit(@RequestBody XhsUser m) {
-        Assert.isTrue(m.getId() > 0, "参数错误");
-        return service.updateById(m) ? ResponseEntity.ok(m) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("操作失败");
+    @PostMapping
+    @Transactional
+    public ResponseEntity saveOrUpdate(@RequestBody List<User> m) {
+        Assert.isTrue(userService.saveOrUpdateBatch(m), cst.fail);
+        return ResponseEntity.ok(cst.ok);
     }
 
-    @DeleteMapping("del")
-    public ResponseEntity del(String[] ids) {
-        Assert.isTrue(ids != null && ids.length > 0, "参数错误");
-        return service.removeBatchByIds(Arrays.asList(ids)) ? ResponseEntity.ok(null) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("操作失败");
+    @DeleteMapping("/{ids}")
+    @Transactional
+    public ResponseEntity delete(@PathVariable List<Integer> ids) {
+        Assert.isTrue(userService.removeBatchByIds(ids), cst.fail);
+        return ResponseEntity.ok(cst.ok);
     }
-
-    public static void buildQry(QueryWrapper q, Class<?> cls, Object obj) throws IllegalAccessException {
-        if (q == null || cls == null || obj == null) return;
-        Field[] declaredFields = cls.getDeclaredFields();
-        for (Field declaredField : declaredFields) {
-            String name = declaredField.getName();
-            Class type = declaredField.getType();
-            declaredField.setAccessible(true);
-            Object val = declaredField.get(obj);
-            if (Arrays.asList("serialVersionUID").contains(name) || val == null) continue;
-            name = camelToSnakeCase(name);
-            boolean boolDigit = type == Integer.class || type == int.class || type == Long.class || type == long.class || type == Double.class || type == double.class || type == Float.class || type == float.class;
-            if (boolDigit) {
-                q.eq(name, val);
-            } else if (type == Date.class) {
-                LocalDateTime localDateTime = LocalDateTime.ofInstant(((Date) val).toInstant(), ZoneId.systemDefault());
-                LocalDateTime startOfDay = localDateTime.toLocalDate().atStartOfDay();
-                LocalDateTime nextDayStart = startOfDay.plusDays(1).minusSeconds(1);
-                q.between(name, startOfDay, nextDayStart);
-            } else if (type == LocalDateTime.class) {
-                LocalDateTime localDateTime = (LocalDateTime) val;
-                LocalDateTime startOfDay = localDateTime.toLocalDate().atStartOfDay();
-                LocalDateTime nextDayStart = startOfDay.plusDays(1).minusSeconds(1);
-                q.between(name, startOfDay, nextDayStart);
-            } else {
-                q.like(name, val);
-            }
-        }
-    }
-
-    public static String camelToSnakeCase(String camelCase) {
-        return camelCase.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
-    }
+}
 ```
