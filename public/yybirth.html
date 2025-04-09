@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YY生日快乐</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Yuanti SC', 'YouYuan', sans-serif;
+            background-color: #fff9fc;
+            overflow-x: hidden;
+            text-align: center;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .birthday-card {
+            position: relative;
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        h1 {
+            color: #ff69b4;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px rgba(255, 105, 180, 0.2);
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            color: #333;
+            margin: 30px 0;
+            line-height: 1.5;
+        }
+        
+        .photo-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #ff69b4;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            position: relative;
+        }
+        
+        /* Jellycat小熊 */
+        .jellycat {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 3;
+        }
+        
+        .jellycat-1 {
+            top: -30px;
+            left: -20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAsMTBDMzAsMTAgMjAsMzAgMjAsNTBjMCwyMCAxMCw0MCAzMCw0MCBzMzAtMjAgMzAtNDBDODAsMzAgNzAsMTAgNTAsMTB6IiBmaWxsPSIjYzc5MzVjIi8+PGNpcmNsZSBjeD0iMzUiIGN5PSI0MCIgcj0iNSIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjY1IiBjeT0iNDAiIHI9IjUiIGZpbGw9IiMwMDAiLz48cGF0aCBkPSJNNDAsNjBjNSwxMCAxNSwxMCAyMCwwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEwIiBmaWxsPSIjYzc5MzVjIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9IiNjNzkzNWMiLz48L3N2Zz4=');
+            transform: rotate(-15deg);
+            animation: wobble 3s ease-in-out infinite alternate;
+        }
+        
+        .jellycat-2 {
+            bottom: -20px;
+            right: -20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAsMTBDMzAsMTAgMjAsMzAgMjAsNTBjMCwyMCAxMCw0MCAzMCw0MCBzMzAtMjAgMzAtNDBDODAsMzAgNzAsMTAgNTAsMTB6IiBmaWxsPSIjZTZiZThlIi8+PGNpcmNsZSBjeD0iMzUiIGN5PSI0MCIgcj0iNSIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjY1IiBjeT0iNDAiIHI9IjUiIGZpbGw9IiMwMDAiLz48cGF0aCBkPSJNNDAsNjBjNSwxMCAxNSwxMCAyMCwwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEwIiBmaWxsPSIjZTZiZThlIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9IiNlNmJlOGUiLz48L3N2Zz4=');
+            transform: rotate(15deg);
+            animation: wobble 4s ease-in-out infinite alternate-reverse;
+        }
+        
+        .jellycat-3 {
+            top: -20px;
+            right: -20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAsMTBDMzAsMTAgMjAsMzAgMjAsNTBjMCwyMCAxMCw0MCAzMCw0MCBzMzAtMjAgMzAtNDBDODAsMzAgNzAsMTAgNTAsMTB6IiBmaWxsPSIjZThjZGIzIi8+PGNpcmNsZSBjeD0iMzUiIGN5PSI0MCIgcj0iNSIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjY1IiBjeT0iNDAiIHI9IjUiIGZpbGw9IiMwMDAiLz48cGF0aCBkPSJNNDAsNjBjNSwxMCAxNSwxMCAyMCwwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEwIiBmaWxsPSIjZThjZGIzIi8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9IiNlOGNkYjMiLz48L3N2Zz4=');
+            transform: rotate(25deg);
+            animation: wobble 5s ease-in-out infinite alternate;
+        }
+        
+        .jellycat-4 {
+            bottom: -30px;
+            left: -20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNTAsMTBDMzAsMTAgMjAsMzAgMjAsNTBjMCwyMCAxMCw0MCAzMCw0MCBzMzAtMjAgMzAtNDBDODAsMzAgNzAsMTAgNTAsMTB6IiBmaWxsPSIjZDAzYzc0Ii8+PGNpcmNsZSBjeD0iMzUiIGN5PSI0MCIgcj0iNSIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjY1IiBjeT0iNDAiIHI9IjUiIGZpbGw9IiMwMDAiLz48cGF0aCBkPSJNNDAsNjBjNSwxMCAxNSwxMCAyMCwwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjI1IiBjeT0iMjUiIHI9IjEwIiBmaWxsPSIjZDAzYzc0Ii8+PGNpcmNsZSBjeD0iNzUiIGN5PSIyNSIgcj0iMTAiIGZpbGw9IiNkMDNjNzQiLz48L3N2Zz4=');
+            transform: rotate(-25deg);
+            animation: wobble 3.5s ease-in-out infinite alternate-reverse;
+        }
+        
+        @keyframes wobble {
+            0% { transform: rotate(var(--rotation)) translateY(0); }
+            100% { transform: rotate(var(--rotation)) translateY(-10px); }
+        }
+        
+        /* 蛋糕 */
+        .cake {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            z-index: 4;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        
+        /* 气球 */
+        .balloons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .balloon {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: float-balloon 15s linear infinite;
+        }
+        
+        @keyframes float-balloon {
+            0% {
+                transform: translateY(100vh) translateX(var(--translateX));
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-20vh) translateX(calc(var(--translateX) + var(--drift) * 100px));
+                opacity: 0;
+            }
+        }
+        
+        /* 彩带 */
+        .ribbon {
+            position: absolute;
+            width: 10px;
+            height: 100px;
+            background: linear-gradient(var(--color1), var(--color2));
+            border-radius: 5px;
+            transform-origin: top center;
+            animation: swing 5s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        @keyframes swing {
+            0% { transform: rotate(calc(-20deg + var(--swing-offset))); }
+            50% { transform: rotate(calc(20deg + var(--swing-offset))); }
+            100% { transform: rotate(calc(-20deg + var(--swing-offset))); }
+        }
+        
+        /* 五彩纸屑 */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color);
+            opacity: 0.8;
+            transform: rotate(var(--rotation));
+            animation: confetti-fall var(--fall-duration) linear infinite, confetti-shake var(--shake-duration) ease-in-out infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(var(--rotation)); }
+            100% { transform: translateY(100vh) rotate(calc(var(--rotation) + 360deg)); }
+        }
+        
+        @keyframes confetti-shake {
+            0% { transform: translateX(0) rotate(var(--rotation)); }
+            25% { transform: translateX(var(--shake-amount)) rotate(var(--rotation)); }
+            50% { transform: translateX(0) rotate(var(--rotation)); }
+            75% { transform: translateX(calc(-1 * var(--shake-amount))) rotate(var(--rotation)); }
+            100% { transform: translateX(0) rotate(var(--rotation)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="birthday-card">
+            <h1>YY生日快乐！</h1>
+            <div class="photo-container">
+                <!-- 替换src为您的图像路径 -->
+                <img src="http://qn.thinban.top/1.jpg" alt="生日女孩" class="avatar">
+                
+                <!-- Jellycat小熊 -->
+                <div class="jellycat jellycat-1" style="--rotation: -15deg;"></div>
+                <div class="jellycat jellycat-2" style="--rotation: 15deg;"></div>
+                <div class="jellycat jellycat-3" style="--rotation: 25deg;"></div>
+                <div class="jellycat jellycat-4" style="--rotation: -25deg;"></div>
+                
+                <!-- 蛋糕 -->
+                <div class="cake">🎂</div>
+            </div>
+            
+            <p class="message">
+                祝可爱的YY生日快乐！<br>
+                愿你的每一天都充满阳光和欢笑，<br>
+                愿所有美好的事物都围绕在你身边！
+            </p>
+        </div>
+    </div>
+    
+    <!-- 气球 -->
+    <div class="balloons-container" id="balloons"></div>
+    
+    <!-- 彩带 -->
+    <div id="ribbons"></div>
+    
+    <!-- 五彩纸屑 -->
+    <div class="confetti-container" id="confetti"></div>
+    
+    <script>
+        // 生成气球
+        const balloonsContainer = document.getElementById('balloons');
+        const balloonEmojis = ['🎈', '🎈', '🎁', '🎊', '🎉', '✨', '🎀'];
+        
+        for (let i = 0; i < 15; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+            balloon.style.left = `${Math.random() * 100}%`;
+            balloon.style.setProperty('--translateX', `${Math.random() * 100}px`);
+            balloon.style.setProperty('--drift', `${Math.random() * 2 - 1}`);
+            balloon.style.animationDelay = `${Math.random() * 10}s`;
+            balloonsContainer.appendChild(balloon);
+        }
+        
+        // 生成彩带
+        const ribbonsContainer = document.getElementById('ribbons');
+        const ribbonColors = [
+            ['#ff69b4', '#ff1493'],
+            ['#00bfff', '#1e90ff'],
+            ['#ffd700', '#ffa500'],
+            ['#7fff00', '#32cd32'],
+            ['#ba55d3', '#9932cc']
+        ];
+        
+        for (let i = 0; i < 12; i++) {
+            const ribbon = document.createElement('div');
+            ribbon.className = 'ribbon';
+            
+            const colors = ribbonColors[Math.floor(Math.random() * ribbonColors.length)];
+            ribbon.style.setProperty('--color1', colors[0]);
+            ribbon.style.setProperty('--color2', colors[1]);
+            
+            ribbon.style.left = `${Math.random() * 100}%`;
+            ribbon.style.top = `${Math.random() * 40}%`;
+            ribbon.style.height = `${Math.random() * 100 + 50}px`;
+            ribbon.style.width = `${Math.random() * 10 + 5}px`;
+            ribbon.style.setProperty('--swing-offset', `${Math.random() * 40 - 20}deg`);
+            ribbon.style.animationDuration = `${Math.random() * 5 + 3}s`;
+            ribbonsContainer.appendChild(ribbon);
+        }
+        
+        // 生成五彩纸屑
+        const confettiContainer = document.getElementById('confetti');
+        const confettiColors = ['#ff69b4', '#00bfff', '#ffd700', '#7fff00', '#ba55d3', '#ff1493', '#1e90ff', '#ffa500', '#32cd32', '#9932cc'];
+        
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.top = `${Math.random() * 100}%`;
+            confetti.style.setProperty('--color', confettiColors[Math.floor(Math.random() * confettiColors.length)]);
+            confetti.style.setProperty('--rotation', `${Math.random() * 360}deg`);
+            confetti.style.setProperty('--fall-duration', `${Math.random() * 5 + 5}s`);
+            confetti.style.setProperty('--shake-duration', `${Math.random() * 2 + 1}s`);
+            confetti.style.setProperty('--shake-amount', `${Math.random() * 50 + 20}px`);
+            confetti.style.animationDelay = `${Math.random() * 5}s`;
+            
+            confettiContainer.appendChild(confetti);
+        }
+    </script>
+</body>
+</html>

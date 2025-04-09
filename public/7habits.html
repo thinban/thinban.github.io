@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间管理矩阵（操作动效 & 持续晃动直到悬浮）</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自定义动画 */
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        .animate-shake {
+            animation: shake 1s infinite;
+            /* 持续晃动，直到鼠标悬浮 */
+        }
+
+        .drag-over {
+            background-color: rgba(229, 231, 235, 0.8);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-pink-100 to-purple-100 min-h-screen p-6">
+    <h1 class="text-4xl font-bold text-center text-purple-700 mb-8 drop-shadow-lg">时间管理矩阵 ✨</h1>
+    <div class="container max-w-5xl mx-auto">
+        <!-- 任务输入表单 -->
+        <div
+            class="task-form bg-white rounded-xl p-6 mb-6 shadow-lg border-2 border-purple-200 transition-all duration-300 hover:shadow-xl">
+            <div class="flex flex-wrap gap-4 items-center">
+                <input type="text" id="taskInput" placeholder="输入任务描述..."
+                    class="flex-1 p-3 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300">
+                <select id="urgencySelect"
+                    class="p-3 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-purple-50 text-purple-700">
+                    <option value="urgent">紧急</option>
+                    <option value="not-urgent">不紧急</option>
+                </select>
+                <select id="importanceSelect"
+                    class="p-3 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-purple-50 text-purple-700">
+                    <option value="important">重要</option>
+                    <option value="not-important">不重要</option>
+                </select>
+                <input type="datetime-local" id="reminderInput"
+                    class="p-3 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <button onclick="addTask()"
+                    class="p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-300">添加任务</button>
+            </div>
+        </div>
+
+        <!-- 时间管理矩阵 -->
+        <div class="matrix grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="quadrant bg-white rounded-xl p-6 shadow-lg border-2 border-red-200 transition-all duration-300"
+                id="urgent-important" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <h3 class="text-2xl font-semibold text-red-600 mb-4">紧急且重要 🔥</h3>
+            </div>
+            <div class="quadrant bg-white rounded-xl p-6 shadow-lg border-2 border-green-200 transition-all duration-300"
+                id="not-urgent-important" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <h3 class="text-2xl font-semibold text-green-600 mb-4">重要但不紧急 🌱（3.要事第一）</h3>
+            </div>
+            <div class="quadrant bg-white rounded-xl p-6 shadow-lg border-2 border-yellow-200 transition-all duration-300"
+                id="urgent-not-important" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <h3 class="text-2xl font-semibold text-yellow-600 mb-4">紧急但不重要 ⚡</h3>
+            </div>
+            <div class="quadrant bg-white rounded-xl p-6 shadow-lg border-2 border-gray-200 transition-all duration-300"
+                id="not-urgent-not-important" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <h3 class="text-2xl font-semibold text-gray-600 mb-4">不重要也不紧急 🛋️</h3>
+            </div>
+        </div>
+
+        <!-- Notes 卡片 -->
+        <div
+            class="notes-card bg-white rounded-xl p-6 mt-6 shadow-lg border-2 border-purple-200 transition-all duration-300">
+            <h2 class="text-2xl font-bold text-purple-700 mb-4">《高效能人士的七个习惯》 📘</h2>
+            <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                <li><span class="font-semibold">积极主动（Be Proactive）：</span>对自己的生活负责，主动选择自己的态度和行动，而不是被动反应外界环境。</li>
+                <li><span class="font-semibold">以终为始（Begin with the End in Mind）：</span>明确目标和方向，从长远的角度规划人生，确保行动与愿景一致。
+                </li>
+                <li><span class="font-semibold">要事第一（Put First Things First）：</span>优先处理【重要但不紧急】的事情，有效管理时间和精力，减少危机。</li>
+                <li><span class="font-semibold">双赢思维（Think Win-Win）：</span>在人际交往中寻求互利共赢的解决方案，注重长期合作关系的建立。</li>
+                <li><span class="font-semibold">知彼解己（Seek First to Understand, Then to Be
+                        Understood）：</span>先倾听和理解对方，再表达自己的观点，培养同理心沟通。</li>
+                <li><span class="font-semibold">统合综效（Synergize）：</span>通过团队合作创造1+1>2的效果，尊重差异并发挥集体智慧。</li>
+                <li><span class="font-semibold">不断更新（Sharpen the Saw）：</span>通过持续的自我提升，保持身、心、智、灵的平衡与成长。</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 模态框（编辑任务） -->
+    <div id="editModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-purple-700 mb-4">编辑任务</h2>
+            <form id="editForm" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-purple-800 mb-1">任务描述</label>
+                    <input type="text" id="editDescription"
+                        class="w-full p-3 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                <div>
+                    <label class="block text-purple-800 mb-1">提醒时间</label>
+                    <input type="datetime-local" id="editReminderTime"
+                        class="w-full p-3 rounded-lg border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                <div class="flex gap-3 mt-4">
+                    <button type="button" onclick="saveEdit()"
+                        class="flex-1 p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-300">保存</button>
+                    <button type="button" onclick="closeModal()"
+                        class="flex-1 p-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-all duration-300">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let currentEditTaskId = null;
+
+        // 页面加载时渲染任务并检查提醒
+        window.onload = function () {
+            renderTasks();
+            checkReminders();
+        };
+
+        // 添加任务
+        function addTask() {
+            const taskInput = document.getElementById('taskInput').value;
+            const urgency = document.getElementById('urgencySelect').value;
+            const importance = document.getElementById('importanceSelect').value;
+            const reminderTime = document.getElementById('reminderInput').value;
+
+            if (!taskInput) {
+                alert('请输入任务描述！');
+                return;
+            }
+
+            const task = {
+                id: Date.now(),
+                description: taskInput,
+                urgency: urgency,
+                importance: importance,
+                reminderTime: reminderTime ? toEast8Time(new Date(reminderTime)).toISOString() : null,
+                reminded: false,
+                isShaking: false // 是否正在晃动
+            };
+
+            tasks.push(task);
+            saveTasks();
+            renderTasks(true); // 添加任务时触发动效
+
+            // 清空输入框
+            document.getElementById('taskInput').value = '';
+            document.getElementById('reminderInput').value = '';
+        }
+
+        // 打开模态框并填充表单
+        function editTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+
+            currentEditTaskId = id;
+
+            // 填充表单
+            document.getElementById('editDescription').value = task.description;
+            document.getElementById('editReminderTime').value = task.reminderTime ? new Date(task.reminderTime).toISOString().slice(0, 16) : '';
+
+            // 显示模态框
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        // 保存编辑
+        function saveEdit() {
+            const task = tasks.find(t => t.id === currentEditTaskId);
+            if (!task) return;
+
+            const newDescription = document.getElementById('editDescription').value;
+            const newReminderTime = document.getElementById('editReminderTime').value;
+
+            if (newDescription) {
+                task.description = newDescription;
+                task.reminderTime = newReminderTime ? toEast8Time(new Date(newReminderTime)).toISOString() : task.reminderTime;
+                task.reminded = false;
+                task.isShaking = false; // 重置晃动状态
+                saveTasks();
+                renderTasks(true); // 编辑任务时触发动效
+                closeModal();
+            } else {
+                alert('任务描述不能为空！');
+            }
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            currentEditTaskId = null;
+        }
+
+        // 删除任务
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks(); // 删除任务时不触发动效（仅刷新）
+        }
+
+        // 保存任务到本地存储
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        // 渲染任务到页面
+        function renderTasks(withAnimation = false) {
+            const quadrants = {
+                'urgent-important': document.getElementById('urgent-important'),
+                'not-urgent-important': document.getElementById('not-urgent-important'),
+                'urgent-not-important': document.getElementById('urgent-not-important'),
+                'not-urgent-not-important': document.getElementById('not-urgent-not-important')
+            };
+
+            // 清空所有象限内容
+            Object.values(quadrants).forEach(quadrant => {
+                quadrant.innerHTML = `<h3 class="text-2xl font-semibold mb-4">${quadrant.querySelector('h3').textContent}</h3>`;
+            });
+
+            // 按任务分类渲染
+            tasks.forEach(task => {
+                const key = `${task.urgency}-${task.importance}`;
+                const quadrant = quadrants[key];
+                if (quadrant) {
+                    const taskElement = document.createElement('div');
+                    // 仅在用户操作（添加/编辑）时添加动效，或者任务正在晃动
+                    const shouldAnimate = withAnimation || task.isShaking;
+                    taskElement.className = `task flex justify-between items-center p-3 mb-2 bg-purple-50 rounded-lg shadow-sm border border-purple-200 hover:bg-purple-100 transition-all duration-300 ${withAnimation ? 'animate-bounce-in' : ''} ${task.isShaking ? 'animate-shake' : ''}`;
+                    taskElement.setAttribute('draggable', 'true');
+                    taskElement.setAttribute('data-id', task.id);
+                    taskElement.innerHTML = `
+                        <span class="text-purple-800">${task.description}${task.reminderTime ? ' (提醒: ' + toEast8Time(new Date(task.reminderTime)).toLocaleString() + ')' : ''}</span>
+                        <div class="flex gap-2">
+                            <button class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300" onclick="editTask(${task.id})">修改</button>
+                            <button class="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-300" onclick="deleteTask(${task.id})">删除</button>
+                        </div>
+                    `;
+                    // 鼠标悬浮时停止晃动
+                    taskElement.addEventListener('mouseover', () => {
+                        if (task.isShaking) {
+                            task.isShaking = false;
+                            saveTasks();
+                            renderTasks();
+                        }
+                    });
+                    taskElement.addEventListener('dragstart', dragStart);
+                    taskElement.addEventListener('dragend', dragEnd);
+                    quadrant.appendChild(taskElement);
+                }
+            });
+        }
+
+        // 拖拽相关功能
+        function allowDrop(event) {
+            event.preventDefault();
+            event.target.closest('.quadrant').classList.add('drag-over');
+        }
+
+        function dragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.getAttribute('data-id'));
+            event.target.classList.add('opacity-50');
+        }
+
+        function dragEnd(event) {
+            event.target.classList.remove('opacity-50');
+            document.querySelectorAll('.quadrant').forEach(quadrant => {
+                quadrant.classList.remove('drag-over');
+            });
+            renderTasks(true); // 拖拽完成后触发动效
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const taskId = parseInt(event.dataTransfer.getData('text/plain'));
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            const targetQuadrant = event.target.closest('.quadrant').id;
+            let newUrgency, newImportance;
+
+            switch (targetQuadrant) {
+                case 'urgent-important':
+                    newUrgency = 'urgent';
+                    newImportance = 'important';
+                    break;
+                case 'not-urgent-important':
+                    newUrgency = 'not-urgent';
+                    newImportance = 'important';
+                    break;
+                case 'urgent-not-important':
+                    newUrgency = 'urgent';
+                    newImportance = 'not-important';
+                    break;
+                case 'not-urgent-not-important':
+                    newUrgency = 'not-urgent';
+                    newImportance = 'not-important';
+                    break;
+            }
+
+            task.urgency = newUrgency;
+            task.importance = newImportance;
+            saveTasks();
+        }
+
+        // 将时间转换为东八区时间
+        function toEast8Time(date) {
+            const offset = 8 * 60; // 东八区偏移量（分钟）
+            const localOffset = date.getTimezoneOffset(); // 本地时区偏移量（分钟）
+            const east8Time = new Date(date.getTime() + (offset + localOffset) * 60 * 1000);
+            return east8Time;
+        }
+
+        // 检查提醒
+        function checkReminders() {
+            const now = toEast8Time(new Date());
+            tasks.forEach(task => {
+                // 仅检查有提醒时间且未提醒的任务
+                if (task.reminderTime && !task.reminded) {
+                    const reminderTime = toEast8Time(new Date(task.reminderTime));
+                    const timeDiff = now - reminderTime;
+                    if (timeDiff >= 0 && timeDiff <= 10000) { // 当前时间 >= 提醒时间 且 差值 <= 10秒
+                        task.isShaking = true; // 开始晃动
+                        task.reminded = true;
+                        saveTasks();
+                        renderTasks();
+                    }
+                }
+            });
+            setTimeout(checkReminders, 10000);
+        }
+    </script>
+</body>
+
+</html>
