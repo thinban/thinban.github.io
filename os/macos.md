@@ -9,3 +9,7 @@ cmd ctrl shift 4 截屏到截切板
 
 # 命令行拷贝
 echo 'content'|pbcopy
+
+# 环境变量
+sudo vi ~/.bash_profile
+source ~/.bash_profile
