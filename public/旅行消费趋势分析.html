@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行消费趋势分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        dark: '#1F2937',
+                        light: '#F9FAFB'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            .table-hover {
+                @apply transition-all duration-300 hover:shadow-lg;
+            }
+            .chart-container {
+                @apply relative w-full h-64 md:h-80 lg:h-96;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-inter bg-gray-50 text-dark min-h-screen">
+    <div id="app">
+        <header class="bg-white shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+                <h1 class="text-3xl font-bold text-primary mb-4 md:mb-0">旅行消费趋势分析</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-lg font-medium">总开销: <span class="text-accent font-bold">{{ totalAmount
+                            }}元</span></span>
+                    <button @click="resetFilters"
+                        class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-colors flex items-center">
+                        <i class="fa fa-refresh mr-2"></i> 重置筛选
+                    </button>
+                    <button @click="capturePage"
+                        class="bg-secondary hover:bg-secondary/90 text-white px-4 py-2 rounded-lg transition-colors flex items-center">
+                        <i class="fa fa-download mr-2"></i> 导出图片
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <!-- 筛选区域 -->
+            <section class="bg-white rounded-xl p-6 mb-8 card-shadow">
+                <h2 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fa fa-filter text-primary mr-2"></i> 消费筛选
+                </h2>
+                <div class="flex flex-wrap gap-4">
+                    <!-- 日期筛选 -->
+                    <div class="w-full md:w-auto">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">开始日期</label>
+                        <input type="date" v-model="startDate"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">结束日期</label>
+                        <input type="date" v-model="endDate"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                    </div>
+
+                    <!-- 类目筛选 -->
+                    <div class="w-full">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">消费类目</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button v-for="category in categories" :key="category" :class="{
+                                    'bg-primary text-white': activeCategories.includes(category),
+                                    'bg-gray-200 hover:bg-gray-300': !activeCategories.includes(category)
+                                }" @click="toggleCategory(category)"
+                                class="category-btn px-4 py-2 rounded-full transition-all">
+                                {{ category }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 图表区域 -->
+            <section class="bg-white rounded-xl p-6 mb-8 card-shadow">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fa fa-line-chart text-primary mr-2"></i> 每日消费趋势
+                </h3>
+                <div class="chart-container">
+                    <canvas ref="lineChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 表格区域 -->
+            <section class="bg-white rounded-xl overflow-hidden card-shadow">
+                <h2 class="text-xl font-bold p-6 border-b flex items-center">
+                    <i class="fa fa-table text-primary mr-2"></i> 消费明细
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    日期</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    类目</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    详情</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    金额(元)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="expense in filteredExpenses" :key="expense.date + expense.description"
+                                class="border-b hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap">{{ formatDate(expense.date) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-block w-3 h-3 rounded-full mr-2"
+                                        :style="{ backgroundColor: categoryColors[expense.category] }"></span>
+                                    {{ expense.category }}
+                                </td>
+                                <td class="px-6 py-4">{{ expense.description }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-right">{{ expense.amount }}元
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="bg-gray-50">
+                            <tr>
+                                <td colspan="3" class="px-6 py-3 text-right font-medium">总计</td>
+                                <td class="px-6 py-3 font-medium text-accent">{{ totalAmount }}元</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-dark text-white py-8 mt-12">
+            <div class="container mx-auto px-4 text-center">
+                <p class="mb-4">旅行消费趋势分析工具 &copy; 2025</p>
+                <p class="text-gray-400 text-sm">两人六天六夜旅行消费数据分析</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                expenseData: [
+                    { date: '2025-06-07', category: '交通', description: '顺风车回珠海', amount: 201 },
+                    { date: '2025-06-08', category: '餐饮', description: '超市采购', amount: 97 },
+                    { date: '2025-06-08', category: '交通', description: '金台寺来回打车', amount: 50 },
+                    { date: '2025-06-09', category: '交通', description: '顺风车', amount: 40 },
+                    { date: '2025-06-09', category: '交通', description: '野狸岛来回打车', amount: 34 },
+                    { date: '2025-06-09', category: '餐饮', description: '杨记隆府', amount: 177 },
+                    { date: '2025-06-09', category: '餐饮', description: '蜜雪冰城', amount: 7 },
+                    { date: '2025-06-09', category: '住宿', description: '天one酒店', amount: 151 },
+                    { date: '2025-06-09', category: '其他', description: '便利店', amount: 16 },
+                    { date: '2025-06-09', category: '其他', description: '签注', amount: 15 },
+                    { date: '2025-06-10', category: '餐饮', description: '早餐', amount: 23 },
+                    { date: '2025-06-10', category: '交通', description: '打车', amount: 9.5 },
+                    { date: '2025-06-10', category: '交通', description: '公交', amount: 11 },
+                    { date: '2025-06-10', category: '娱乐', description: '肩颈舒', amount: 38 },
+                    { date: '2025-06-10', category: '娱乐', description: '赌场', amount: 100 },
+                    { date: '2025-06-10', category: '餐饮', description: '葡餐（午饭）', amount: 127 },
+                    { date: '2025-06-10', category: '餐饮', description: '晚饭', amount: 58 },
+                    { date: '2025-06-10', category: '住宿', description: '酒店', amount: 85 },
+                    { date: '2025-06-11', category: '餐饮', description: '早午餐', amount: 42 },
+                    { date: '2025-06-11', category: '交通', description: '打车到长隆', amount: 8.5 },
+                    { date: '2025-06-11', category: '住宿', description: '长隆2日（包含早晚餐）', amount: 1328 },
+                    { date: '2025-06-12', category: '其他', description: '雨衣', amount: 20 },
+                    { date: '2025-06-12', category: '交通', description: '顺风车回珠海', amount: 50 },
+                    { date: '2025-06-12', category: '娱乐', description: '按摩', amount: 143 },
+                    { date: '2025-06-12', category: '餐饮', description: '西北晚餐', amount: 53 },
+                    { date: '2025-06-13', category: '交通', description: '珠海到广州大巴', amount: 100 },
+                    { date: '2025-06-13', category: '娱乐', description: 'KTV（包午饭）', amount: 81 },
+                    { date: '2025-06-13', category: '餐饮', description: '荔枝', amount: 15 }
+                ],
+                categoryColors: {
+                    '交通': '#3B82F6',
+                    '餐饮': '#10B981',
+                    '住宿': '#8B5CF6',
+                    '娱乐': '#F59E0B',
+                    '其他': '#EF4444'
+                },
+                startDate: '',
+                endDate: '',
+                activeCategories: ['交通', '餐饮', '住宿', '娱乐', '其他'],
+                categories: ['交通', '餐饮', '住宿', '娱乐', '其他'],
+                lineChart: null
+            },
+            computed: {
+                filteredExpenses() {
+                    let filtered = this.expenseData;
+
+                    // 日期筛选
+                    if (this.startDate && this.endDate) {
+                        filtered = filtered.filter(expense => {
+                            return expense.date >= this.startDate && expense.date <= this.endDate;
+                        });
+                    }
+
+                    // 类目筛选
+                    if (this.activeCategories.length > 0) {
+                        filtered = filtered.filter(expense =>
+                            this.activeCategories.includes(expense.category)
+                        );
+                    }
+
+                    return filtered;
+                },
+                totalAmount() {
+                    return this.filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0).toFixed(1);
+                },
+                dailyCategoryData() {
+                    const data = {};
+
+                    // 初始化日期范围内的所有日期
+                    const dates = new Set();
+                    this.filteredExpenses.forEach(expense => dates.add(expense.date));
+                    Array.from(dates).sort().forEach(date => {
+                        data[date] = {
+                            total: 0,
+                            categories: this.categories.reduce((acc, cat) => {
+                                acc[cat] = 0;
+                                return acc;
+                            }, {})
+                        };
+                    });
+
+                    // 填充每日各类目数据
+                    this.filteredExpenses.forEach(expense => {
+                        if (data[expense.date]) {
+                            data[expense.date].total += expense.amount;
+                            data[expense.date].categories[expense.category] += expense.amount;
+                        }
+                    });
+
+                    return data;
+                },
+                chartData() {
+                    const dates = Object.keys(this.dailyCategoryData).sort();
+
+                    const datasets = this.categories.map(category => {
+                        return {
+                            label: category,
+                            data: dates.map(date => this.dailyCategoryData[date].categories[category]),
+                            backgroundColor: this.categoryColors[category],
+                            borderColor: this.categoryColors[category],
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true,
+                            stack: 'combined'
+                        };
+                    });
+
+                    // 添加总消费趋势线
+                    datasets.push({
+                        label: '总消费',
+                        data: dates.map(date => this.dailyCategoryData[date].total),
+                        borderColor: '#000',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        fill: false,
+                        pointBackgroundColor: '#000',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    });
+
+                    return {
+                        labels: dates.map(date => this.formatDate(date)),
+                        datasets: datasets
+                    };
+                }
+            },
+            mounted() {
+                // 设置默认日期范围
+                this.startDate = this.expenseData[0].date;
+                this.endDate = this.expenseData[this.expenseData.length - 1].date;
+
+                // 初始化图表
+                this.initLineChart();
+            },
+            watch: {
+                filteredExpenses() {
+                    this.updateLineChart();
+                }
+            },
+            methods: {
+                toggleCategory(category) {
+                    if (this.activeCategories.includes(category)) {
+                        this.activeCategories = this.activeCategories.filter(cat => cat !== category);
+                    } else {
+                        this.activeCategories.push(category);
+                    }
+                },
+                resetFilters() {
+                    // 重置日期
+                    this.startDate = this.expenseData[0].date;
+                    this.endDate = this.expenseData[this.expenseData.length - 1].date;
+
+                    // 重置类目
+                    this.activeCategories = [...this.categories];
+                },
+                capturePage() {
+                    // 显示加载状态
+                    const originalButtonText = this.$el.querySelector('button:has(.fa-download)').innerHTML;
+                    this.$el.querySelector('button:has(.fa-download)').innerHTML =
+                        '<i class="fa fa-spinner fa-spin mr-2"></i> 生成图片中...';
+
+                    // 等待图表渲染完成
+                    setTimeout(() => {
+                        // 配置html2canvas选项
+                        const options = {
+                            logging: false,         // 禁用日志
+                            useCORS: true,          // 启用CORS以处理跨域资源
+                            scale: 2,               // 提高图片清晰度
+                            scrollY: 0,             // 从顶部开始截图
+                            allowTaint: false,      // 禁止污染画布
+                            backgroundColor: null,  // 保持透明背景
+                            letterRendering: true,  // 优化文字渲染
+                            foreignObjectRendering: true, // 支持SVG渲染
+
+                            // 过滤不需要截图的元素
+                            ignoreElements: (element) => {
+                                return element.classList.contains('sticky') ||
+                                    element.classList.contains('fa-spinner');
+                            },
+
+                            // 为Chart.js元素添加特殊处理
+                            beforeRender: (canvas) => {
+                                // 触发图表重绘以确保数据最新
+                                if (this.lineChart) this.lineChart.update();
+
+                                // 处理图表元素的跨域问题
+                                const charts = document.querySelectorAll('canvas');
+                                charts.forEach(chart => {
+                                    const ctx = chart.getContext('2d');
+                                    const imgData = ctx.getImageData(0, 0, chart.width, chart.height);
+                                    ctx.putImageData(imgData, 0, 0);
+                                });
+                            }
+                        };
+
+                        // 生成截图
+                        html2canvas(document.querySelector('#app'), options).then(canvas => {
+                            // 创建下载链接
+                            const link = document.createElement('a');
+                            link.download = `旅行消费趋势分析_${new Date().toISOString().slice(0, 10)}.png`;
+                            link.href = canvas.toDataURL('image/png');
+                            link.click();
+
+                            // 恢复按钮状态
+                            this.$el.querySelector('button:has(.fa-download)').innerHTML = originalButtonText;
+                        }).catch(error => {
+                            console.error('截图生成失败:', error);
+                            // 恢复按钮状态
+                            this.$el.querySelector('button:has(.fa-download)').innerHTML = originalButtonText;
+                            alert('截图生成失败，请重试或检查控制台错误');
+                        });
+                    }, 300);
+                },
+                initLineChart() {
+                    const ctx = this.$refs.lineChart.getContext('2d');
+                    this.lineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: this.chartData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: '金额(元)'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: '日期'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: '每日消费趋势及类目分布',
+                                    font: {
+                                        size: 16
+                                    }
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                    callbacks: {
+                                        label: function (context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(context.parsed.y);
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        usePointStyle: true,
+                                        padding: 20,
+                                        boxWidth: 10
+                                    }
+                                }
+                            },
+                            interaction: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            elements: {
+                                point: {
+                                    radius: 2,
+                                    hoverRadius: 6
+                                }
+                            }
+                        }
+                    });
+                },
+                updateLineChart() {
+                    this.lineChart.data = this.chartData;
+                    this.lineChart.update();
+                },
+                formatDate(dateStr) {
+                    if (!dateStr) return '';
+                    const date = new Date(dateStr);
+                    return `${date.getMonth() + 1}月${date.getDate()}日`;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
